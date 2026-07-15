@@ -104,3 +104,13 @@ test('cover identity and phone-away slide use the real Sugcar asset and Siri int
   assert.match(script, /class="away-card"/);
   assert.match(script, /Hey Siri, check my blood sugar\./);
 });
+
+test('settings frames use a compact flex pair and smaller screen radii than the hero frame', async () => {
+  const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
+
+  assert.match(css, /\.screen-pair\s*\{[^}]*display:\s*flex[^}]*justify-content:\s*center/s);
+  assert.match(css, /\.screen-pair\s*\{[^}]*gap:\s*clamp\(\.75rem,\s*1\.3vw,\s*1rem\)/s);
+  assert.match(css, /\.product-shot\.phone-frame\s*>\s*img\s*\{[^}]*border-radius:\s*2\.05rem/s);
+  assert.match(css, /\.cover-identity\s*\{/);
+  assert.match(css, /\.away-card\s*\{/);
+});
