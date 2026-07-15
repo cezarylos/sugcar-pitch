@@ -1,8 +1,8 @@
 export const slides = [
   {
     eyebrow: 'A personal iOS project',
-    title: 'The moment you should not look at your phone.',
-    body: ['A personal iOS project for a safer, voice-first glucose check.'],
+    title: 'For moments when your attention belongs elsewhere.',
+    body: ['A personal iOS app for checking blood glucose by voice.'],
     layout: 'cover'
   },
   {
@@ -14,19 +14,19 @@ export const slides = [
   {
     eyebrow: 'Your source, not ours',
     title: 'No new health-data cloud.',
-    body: ['Sugcar reads the latest value directly from your existing Nightscout / Gluroo setup—without adding another data silo.'],
+    body: ['Sugcar reads the latest value from your existing Nightscout / Gluroo setup. It does not create a Sugcar cloud account or another data silo.'],
     layout: 'flow'
   },
   {
     eyebrow: 'The details matter',
     title: 'Control what gets said out loud.',
-    body: ['Range, units, voice, and Lock Screen visibility are personal.'],
+    body: ['Set the app around your routine: units, personal range, voice, appearance, and Lock Screen.'],
     layout: 'gallery'
   },
   {
     eyebrow: 'Voice is the interaction',
     title: 'The answer carries context.',
-    body: ['The reading, its movement, and its age give you more than a number.'],
+    body: ['The reading stays central; choose which supporting context the spoken answer adds: unit, trend, range status, and age.'],
     layout: 'voice'
   },
   {
@@ -38,8 +38,14 @@ export const slides = [
   {
     eyebrow: 'Demo 2',
     title: 'Then see it on the road.',
-    body: ['Siri answers in the driving context without opening the app.'],
+    body: ['Siri answers through the car’s audio context, not a separate in-car interface.'],
     layout: 'demo-driving'
+  },
+  {
+    eyebrow: 'Why I made it',
+    title: 'One important check. Less visual attention.',
+    body: ['A voice-first check that keeps the user in control of what is shared and said aloud.', 'Diabetes asks a lot, every day. Thoughtful technology can make one moment lighter.'],
+    layout: 'closing'
   }
 ];
 

@@ -1,4 +1,4 @@
-import { clampSlideIndex, slideHash, slides } from './deck.js?v=20260715-7';
+import { clampSlideIndex, slideHash, slides } from './deck.js?v=20260715-20';
 
 const app = document.querySelector('#app');
 const hashIndex = () => {
@@ -51,21 +51,29 @@ const phoneChrome = () => `
 
 function visualFor(slide) {
   if (slide.layout === 'cover') {
-    return `<section class="cover-proof" aria-label="Sugcar’s Siri voice-first interaction">
-      <span class="siri-orb"><img src="assets/siri-logo.png" alt="Siri" /></span>
-      <span class="proof-copy"><b>VOICE-FIRST CHECK</b><p>“Hey Siri, check my blood sugar.”</p></span>
-      <i class="cover-wave" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></i>
-    </section>`;
+    return '';
   }
   if (slide.layout === 'problem') {
-    return `<figure class="problem-shot phone-frame">
-      ${phoneChrome()}
-      <img src="assets/sugcar-dashboard.png" alt="Sugcar dashboard showing a current glucose reading of 76 milligrams per decilitre, stable trend, read aloud control, and in-range status." />
-    </figure>`;
+    return `<section class="voice-interaction" aria-label="Sugcar turns one Siri request into a spoken glucose update">
+      <div class="voice-request-card">
+        <span class="siri-orb"><img src="assets/siri-logo.png" alt="Siri" /></span>
+        <div><p class="voice-step-label">VOICE REQUEST</p><p class="voice-command">“Hey Siri, check my blood sugar.”</p></div>
+      </div>
+      <div class="voice-wave-bridge" aria-hidden="true"><i class="cover-wave"><b></b><b></b><b></b><b></b><b></b></i><span>→</span></div>
+      <div class="voice-response-card">
+        <p class="voice-step-label">AUDIO RESPONSE</p>
+        <p class="voice-response-value">76 <small>mg/dL</small><b>→</b></p>
+        <p class="voice-response-context">Stable · In range · 1 minute ago</p>
+      </div>
+      <p class="voice-boundary">Informational only · Verify with BGM</p>
+    </section>`;
   }
   if (slide.layout === 'flow') {
-    return `<div class="flow" aria-label="Direct data flow from the user’s Gluroo or Nightscout source to Sugcar on iPhone, then Siri, Lock Screen, and optional speech">
-      <span>Your Gluroo /<br>Nightscout</span><i>→</i><span>Sugcar<br><small>on iPhone</small></span><i>→</i><span>Siri<br><small>Lock Screen · Speech</small></span>
+    return `<div class="flow-wrap" aria-label="Direct data flow from the user’s Gluroo or Nightscout source to Sugcar on iPhone, then Siri, Lock Screen, and optional speech">
+      <div class="flow">
+        <span>Your Gluroo /<br>Nightscout</span><i>→</i><span>Sugcar<br><small>on iPhone</small></span><i>→</i><span>Siri<br><small>Lock Screen · Speech</small></span>
+      </div>
+      <p class="flow-note"><b>No Sugcar cloud account</b> Your existing source stays in control.</p>
     </div>`;
   }
   if (slide.layout === 'gallery') {
@@ -76,7 +84,10 @@ function visualFor(slide) {
   }
   if (slide.layout === 'voice') {
     return `<section class="voice-card" aria-label="Examples of Sugcar’s configurable Siri feedback">
-      <p class="voice-card-label">WHAT SIRI CAN SAY</p>
+      <p class="voice-card-label">CONFIGURE THE RESPONSE</p>
+      <div class="voice-options" aria-label="Each response detail is independently optional">
+        <span>Reading</span><span>Unit</span><span>Trend</span><span>Range status</span><span>Age</span>
+      </div>
       <p class="voice-value">104 <small>mg/dL</small></p>
       <div class="trend-words" aria-label="Supported trend descriptions">
         <span><b>→</b> stable</span>
@@ -88,17 +99,35 @@ function visualFor(slide) {
     </section>`;
   }
   if (slide.layout === 'demo-app') {
-    return `<section class="demo-stage" aria-label="Reserved placeholder for the Sugcar app walkthrough video">
-      <p class="demo-kicker">APP WALKTHROUGH</p>
-      <strong>Dashboard → settings → voice</strong>
-      <small>Replace with your app walkthrough video</small>
+    return `<section class="demo-video" aria-label="Sugcar app walkthrough video">
+      <div class="video-actions" aria-label="App walkthrough controls">
+        <p class="video-kicker">THE PRODUCT, UNFILTERED</p>
+        <p class="video-statement">A working SwiftUI app with a real Siri intent.</p>
+        <p class="video-detail">Live data and user-controlled voice response.</p>
+        <button class="video-fullscreen" type="button" data-video-fullscreen aria-label="Play the Sugcar app walkthrough in fullscreen">
+          <span class="video-play-symbol" aria-hidden="true">▶</span>
+          <span class="video-play-copy"><strong>Watch app walkthrough</strong><small>Tap to play fullscreen</small></span>
+        </button>
+      </div>
+      <div class="video-player">
+        <video data-app-walkthrough controls playsinline preload="metadata" poster="assets/sugcar-app-walkthrough-poster.jpg?v=20260715-2">
+          <source src="assets/sugcar-app-walkthrough.mp4?v=20260715-2" type="video/mp4" />
+          Your browser does not support video playback.
+        </video>
+      </div>
     </section>`;
   }
   if (slide.layout === 'demo-driving') {
-    return `<section class="demo-stage" aria-label="Reserved placeholder for the Sugcar Siri and CarPlay driving video">
+    return `<section class="demo-stage" aria-label="Sugcar Siri interaction in a driving context">
       <p class="demo-kicker">DRIVING DEMO</p>
-      <strong>Siri + CarPlay</strong>
-      <small>Replace with your driving-context video</small>
+      <strong>Siri, through the car’s audio.</strong>
+      <small>Voice request → fresh answer.<br>No separate in-car interface.</small>
+    </section>`;
+  }
+  if (slide.layout === 'closing') {
+    return `<section class="closing-proof" aria-label="Sugcar’s personal project principle">
+      <span class="closing-heart-wrap" aria-hidden="true"><svg class="closing-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" /></svg></span>
+      <p>${slide.body[1]}</p>
     </section>`;
   }
   return '';
@@ -117,6 +146,7 @@ function render() {
     return element;
   }));
   visual.innerHTML = visualFor(slide);
+  bindWalkthroughVideo();
   counter.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
   progress.style.transform = `scaleX(${(activeIndex + 1) / slides.length})`;
   previous.disabled = activeIndex === 0;
@@ -133,10 +163,66 @@ previous.addEventListener('click', () => navigate(activeIndex - 1));
 next.addEventListener('click', () => navigate(activeIndex + 1));
 window.addEventListener('hashchange', () => { activeIndex = hashIndex(); render(); });
 window.addEventListener('keydown', (event) => {
+  if (isWalkthroughFullscreen()) return;
   if (['ArrowRight', ' ', 'PageDown'].includes(event.key)) { event.preventDefault(); navigate(activeIndex + 1); }
   if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); navigate(activeIndex - 1); }
   if (event.key === 'Home') { event.preventDefault(); navigate(0); }
   if (event.key === 'End') { event.preventDefault(); navigate(slides.length - 1); }
+});
+
+function playWalkthroughFullscreen(video, trigger) {
+  const enterFullscreen = video.requestFullscreen ?? video.webkitEnterFullscreen;
+  const playInline = () => {
+    if (trigger) trigger.hidden = true;
+    video.play().catch(() => {});
+  };
+  if (!enterFullscreen) {
+    playInline();
+    return;
+  }
+  try {
+    const result = enterFullscreen.call(video);
+    if (result?.catch) result.catch(playInline);
+    video.play().catch(() => {});
+  } catch {
+    playInline();
+  }
+}
+
+app.addEventListener('click', (event) => {
+  const trigger = event.target.closest('[data-video-fullscreen]');
+  const thumbnail = event.target.closest('[data-app-walkthrough]');
+  if (!trigger && !thumbnail) return;
+  const video = thumbnail ?? document.querySelector('[data-app-walkthrough]');
+  if (!video) return;
+  if (thumbnail) event.preventDefault();
+  playWalkthroughFullscreen(video, trigger);
+});
+
+function pauseWalkthrough() {
+  document.querySelector('[data-app-walkthrough]')?.pause();
+}
+
+function isWalkthroughFullscreen() {
+  const video = document.querySelector('[data-app-walkthrough]');
+  if (!video) return false;
+  return document.fullscreenElement === video || video.webkitPresentationMode === 'fullscreen' || Boolean(video.webkitDisplayingFullscreen);
+}
+
+function bindWalkthroughVideo() {
+  const video = visual.querySelector('[data-app-walkthrough]');
+  if (!video) return;
+  const pauseOnFullscreenExit = () => {
+    const isWebKitFullscreen = video.webkitPresentationMode === 'fullscreen' || video.webkitDisplayingFullscreen;
+    if (!document.fullscreenElement && !isWebKitFullscreen) video.pause();
+  };
+  video.addEventListener('fullscreenchange', pauseOnFullscreenExit);
+  video.addEventListener('webkitendfullscreen', () => video.pause());
+  video.addEventListener('webkitpresentationmodechanged', pauseOnFullscreenExit);
+}
+
+document.addEventListener('fullscreenchange', () => {
+  if (!document.fullscreenElement) pauseWalkthrough();
 });
 
 render();
