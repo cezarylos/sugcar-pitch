@@ -38,7 +38,7 @@ export const slides = [
   {
     eyebrow: 'Demo 2',
     title: 'Then see it on the road.',
-    body: ['Siri answers through the car’s audio context, not a separate in-car interface.'],
+    body: ['With CarPlay connected, Siri speaks the latest glucose update through your car’s audio—hands off, without reaching for your phone.'],
     layout: 'demo-driving'
   },
   {

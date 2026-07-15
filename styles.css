@@ -21,7 +21,7 @@ button { font: inherit; }
 .skip-link { position: fixed; top: -4rem; left: 1rem; z-index: 5; padding: .75rem 1rem; color: #fff; background: var(--navy); border-radius: .5rem; }
 .skip-link:focus { top: 1rem; }
 
-.deck { width: min(100%, 1440px); min-height: 100dvh; margin: auto; padding: clamp(1.25rem, 3vw, 3rem) clamp(1.25rem, 5vw, 5rem) 2rem; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: clamp(1.5rem, 3vw, 3rem); outline: none; }
+.deck { --stage-min-height: 33rem; width: min(100%, 1440px); height: 100dvh; min-height: 100dvh; margin: auto; padding: clamp(1.25rem, 3vw, 3rem) clamp(1.25rem, 5vw, 5rem) 2rem; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: clamp(1.5rem, 3vw, 3rem); outline: none; }
 .topbar, .controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .brand { display: inline-flex; align-items: center; gap: .58rem; color: var(--navy); text-decoration: none; }
 .brand img { width: 2rem; height: 2rem; border-radius: .54rem; box-shadow: 0 .22rem .55rem rgba(13, 33, 60, .2); }
@@ -29,7 +29,7 @@ button { font: inherit; }
 .brand-word span { color: var(--range-good); }
 .counter, .eyebrow { color: var(--muted); font: 500 .74rem/1.2 "DM Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
 
-.slide-content { min-height: 33rem; display: grid; grid-template-columns: minmax(0, .88fr) minmax(20rem, 1.12fr); align-items: center; gap: clamp(2rem, 6vw, 7rem); }
+.slide-content { min-height: var(--stage-min-height); display: grid; grid-template-columns: minmax(0, .88fr) minmax(20rem, 1.12fr); align-items: center; gap: clamp(2rem, 6vw, 7rem); }
 .copy { max-width: 37rem; }
 .eyebrow { margin: 0 0 1rem; }
 .copy h1 { max-width: 12ch; margin: 0; color: var(--navy); font-size: clamp(3rem, 6vw, 6.4rem); font-weight: 800; letter-spacing: -.025em; line-height: 1.02; }
@@ -38,12 +38,16 @@ button { font: inherit; }
 .cover-identity { display: inline-flex; align-items: center; gap: .55rem; margin-bottom: 1rem; color: var(--navy); font-size: .95rem; font-weight: 800; letter-spacing: -.02em; }
 .cover-identity[hidden] { display: none; }
 .cover-identity img { width: 2.15rem; height: 2.15rem; border-radius: .58rem; box-shadow: 0 .3rem .8rem rgba(13, 33, 60, .16); }
-.deck--cover .slide-content { min-height: 0; grid-template-columns: 1fr; align-items: stretch; position: relative; }
+.deck--cover .slide-content { min-height: var(--stage-min-height); grid-template-columns: 1fr; align-items: stretch; position: relative; }
 .deck--cover .copy { max-width: 67rem; align-self: center; }
 .deck--cover .copy h1 { max-width: 12ch; margin-bottom: clamp(2.5rem, 4.2vw, 4rem); font-size: clamp(4rem, 8.25vw, 9rem); letter-spacing: -.06em; line-height: .91; }
 .deck--cover .body { max-width: 30ch; margin-top: 0; }
 .deck--cover .cover-identity { display: none; }
-.deck--closing .slide-content { min-height: 0; grid-template-columns: minmax(0, 1fr) minmax(16rem, .55fr); align-items: center; align-content: center; gap: clamp(2rem, 6vw, 6rem); }
+.deck--cover [data-eyebrow] { animation: cover-copy-in 580ms cubic-bezier(.22, .8, .3, 1) 40ms both; }
+.deck--cover [data-title] { animation: cover-copy-in 720ms cubic-bezier(.22, .8, .3, 1) 110ms both; }
+.deck--cover [data-body] { animation: cover-copy-in 620ms cubic-bezier(.22, .8, .3, 1) 250ms both; }
+@keyframes cover-copy-in { from { opacity: 0; filter: blur(5px); transform: translateY(1.2rem); } to { opacity: 1; filter: blur(0); transform: translateY(0); } }
+.deck--closing .slide-content { min-height: var(--stage-min-height); grid-template-columns: minmax(0, 1fr) minmax(16rem, .55fr); align-items: center; align-content: center; gap: clamp(2rem, 6vw, 6rem); }
 .deck--closing .copy { max-width: 47rem; }
 .deck--closing .copy h1 { max-width: 15ch; font-size: clamp(3.35rem, 5.8vw, 6.5rem); letter-spacing: -.052em; line-height: .94; }
 .deck--closing .body { max-width: 40rem; margin-top: clamp(.7rem, 1.5vw, 1.1rem); }
@@ -155,14 +159,14 @@ button { font: inherit; }
 
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
 @media (max-width: 760px) {
-  .deck { min-height: 100dvh; padding-top: 1.35rem; }
+  .deck { --stage-min-height: 0; min-height: 100dvh; padding-top: 1.35rem; }
   .slide-content { min-height: 0; grid-template-columns: 1fr; gap: 1.7rem; align-content: center; }
   .copy h1 { max-width: 12ch; font-size: clamp(2.8rem, 13vw, 4.5rem); }
   .voice-interaction { max-width: 31rem; grid-template-columns: 1fr; gap: .85rem; margin: 0 auto; }
   .voice-request-card, .voice-response-card { min-height: 0; }
   .voice-wave-bridge { display: flex; justify-content: flex-start; align-items: center; gap: .75rem; min-height: 2rem; }
   .voice-boundary { grid-column: auto; }
-  .deck--cover .slide-content { min-height: 0; position: static; gap: 1.7rem; }
+  .deck--cover .slide-content { min-height: var(--stage-min-height); position: static; gap: 1.7rem; }
   .deck--cover .copy { max-width: 37rem; align-self: start; }
   .deck--cover .copy h1 { max-width: 10ch; font-size: clamp(2.8rem, 11vw, 4rem); }
   .deck--cover .visual { position: static; }
@@ -191,7 +195,7 @@ button { font: inherit; }
   .deck--gallery .product-shot.phone-frame { width: min(100%, 17.25rem); }
 }
 @media (max-width: 1100px) and (min-width: 761px) and (orientation: portrait) {
-  .deck { padding: 2rem clamp(2rem, 7vw, 4rem) 1.5rem; gap: 1.5rem; }
+  .deck { --stage-min-height: 0; padding: 2rem clamp(2rem, 7vw, 4rem) 1.5rem; gap: 1.5rem; }
   .deck:not(.deck--cover) .slide-content { min-height: 0; grid-template-columns: 1fr; gap: 1.25rem; align-content: center; }
   .deck:not(.deck--cover) .copy { max-width: 38rem; }
   .deck:not(.deck--cover) .copy h1 { max-width: 14ch; font-size: clamp(3.4rem, 7vw, 4.7rem); }
@@ -201,7 +205,7 @@ button { font: inherit; }
   .video-player { height: min(45vh, 28rem); }
 }
 @media (max-height: 820px) and (min-width: 761px) and (orientation: landscape) {
-  .slide-content { min-height: 29rem; }
+  .deck { --stage-min-height: 29rem; }
   .deck--problem { gap: 1.5rem; }
   .deck--gallery { padding-top: 1rem; padding-bottom: 1rem; gap: 1rem; }
   .screen-pair { min-height: 31rem; }

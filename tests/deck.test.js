@@ -55,7 +55,7 @@ test('settings and spoken-response slides describe distinct moments', () => {
 
 test('the two demo slides keep the app walkthrough and driving moment distinct', () => {
   assert.deepEqual(slides.slice(-3, -1).map((slide) => slide.layout), ['demo-app', 'demo-driving']);
-  assert.match(slides.at(-2).body.join(' '), /not a separate in-car interface/i);
+  assert.match(slides.at(-2).body.join(' '), /With CarPlay connected, Siri speaks the latest glucose update/i);
 });
 
 test('the closing returns to the personal reason for the project', () => {

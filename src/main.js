@@ -33,6 +33,7 @@ app.insertAdjacentHTML('beforeend', `
   </section>`);
 
 const stage = document.querySelector('#slide');
+const copy = document.querySelector('.copy');
 const eyebrow = document.querySelector('[data-eyebrow]');
 const title = document.querySelector('[data-title]');
 const body = document.querySelector('[data-body]');
@@ -119,8 +120,8 @@ function visualFor(slide) {
   if (slide.layout === 'demo-driving') {
     return `<section class="demo-stage" aria-label="Sugcar Siri interaction in a driving context">
       <p class="demo-kicker">DRIVING DEMO</p>
-      <strong>Siri, through the car’s audio.</strong>
-      <small>Voice request → fresh answer.<br>No separate in-car interface.</small>
+      <strong>Siri talks through CarPlay.</strong>
+      <small>One simple request.<br>Hands stay on the wheel.</small>
     </section>`;
   }
   if (slide.layout === 'closing') {
@@ -130,6 +131,19 @@ function visualFor(slide) {
     </section>`;
   }
   return '';
+}
+
+function animateSlideContents(slide) {
+  [copy, visual].forEach((element) => element.getAnimations().forEach((animation) => animation.cancel()));
+  if (slide.layout === 'cover' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const keyframes = [
+    { opacity: 0, transform: 'translateY(1rem)' },
+    { opacity: 1, transform: 'translateY(0)' }
+  ];
+  const timing = { duration: 380, easing: 'cubic-bezier(.22, .8, .3, 1)', fill: 'both' };
+  copy.animate(keyframes, timing);
+  if (visual.children.length) visual.animate(keyframes, { ...timing, delay: 70 });
 }
 
 function render() {
@@ -150,10 +164,13 @@ function render() {
   progress.style.transform = `scaleX(${(activeIndex + 1) / slides.length})`;
   previous.disabled = activeIndex === 0;
   next.disabled = activeIndex === slides.length - 1;
+  animateSlideContents(slide);
 }
 
 function navigate(index) {
-  activeIndex = clampSlideIndex(index, slides.length);
+  const targetIndex = clampSlideIndex(index, slides.length);
+  if (targetIndex === activeIndex) return;
+  activeIndex = targetIndex;
   window.location.hash = slideHash(activeIndex);
   render();
 }

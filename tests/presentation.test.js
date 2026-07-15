@@ -23,10 +23,21 @@ test('presentation shell exposes accessible keyboard-first controls', async () =
 
 test('navigation keeps a stable stage instead of replacing and refocusing the page', async () => {
   const script = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
+  const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
 
   assert.doesNotMatch(script, /app\.innerHTML\s*=/);
   assert.doesNotMatch(script, /document\.querySelector\('#slide'\)\.focus\(\)/);
   assert.match(script, /const stage =/);
+  assert.match(css, /\.deck\s*\{[^}]*(?:^|;\s*)height:\s*100dvh/s);
+  assert.match(css, /\.deck\s*\{[^}]*--stage-min-height:\s*33rem/s);
+  assert.match(css, /\.slide-content\s*\{[^}]*min-height:\s*var\(--stage-min-height\)/s);
+  assert.match(css, /\.deck--cover\s+\.slide-content\s*\{[^}]*min-height:\s*var\(--stage-min-height\)/s);
+});
+
+test('navigation ignores requests for the already active slide', async () => {
+  const script = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
+
+  assert.match(script, /function navigate\(index\)\s*\{\s*const targetIndex = clampSlideIndex\(index, slides\.length\);\s*if \(targetIndex === activeIndex\) return;/s);
 });
 
 test('visual tokens follow Sugcar’s actual light interface and range colors', async () => {
@@ -113,6 +124,7 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(css, /\.closing-heart\s*\{/);
   assert.match(css, /\.closing-heart-wrap\s*\{[^}]*background:\s*var\(--soft-green\)/s);
   assert.match(css, /\.deck--closing\s+\.slide-content\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s+minmax\(16rem,\s*\.55fr\)/s);
+  assert.doesNotMatch(css, /\.deck--closing\s+\.copy h1\s*\{[^}]*white-space:\s*pre-line/s);
   assert.match(css, /\.closing-proof\s*\{[^}]*min-height:\s*16rem/s);
   assert.match(script, /slide\.layout === 'voice'/);
   assert.match(script, /class="voice-options"/);
@@ -129,8 +141,8 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(script, /falling rapidly/);
   assert.doesNotMatch(script, /rising slightly<\/strong>, in range/);
   assert.match(script, /app walkthrough/i);
-  assert.match(script, /Siri, through the car’s audio\./);
-  assert.match(script, /No separate in-car interface\./);
+  assert.match(script, /Siri talks through CarPlay\./);
+  assert.match(script, /Hands stay on the wheel\./);
   assert.doesNotMatch(script, /Unit · trend · range · age — each optional/);
   assert.doesNotMatch(script, /add screenshot/i);
 });
@@ -168,6 +180,14 @@ test('cover keeps an editorial hero while slide 2 makes the Siri exchange explic
   assert.match(css, /\.deck--cover\s+\.copy h1\s*\{[^}]*margin-bottom:\s*clamp\(2\.5rem,\s*4\.2vw,\s*4rem\)/s);
   assert.match(css, /\.deck--cover\s+\.cover-identity\s*\{[^}]*display:\s*none/s);
   assert.match(css, /\.siri-orb\s*\{/);
+  assert.match(css, /\.deck--cover\s+\[data-title\]\s*\{[^}]*animation:\s*cover-copy-in/s);
+  assert.match(css, /\.deck--cover\s+\[data-body\]\s*\{[^}]*animation:\s*cover-copy-in/s);
+  assert.match(css, /@keyframes cover-copy-in/);
+  assert.match(script, /function animateSlideContents\(slide\)/);
+  assert.match(script, /const copy = document\.querySelector\('\.copy'\);/);
+  assert.match(script, /if \(slide\.layout === 'cover' \|\| window\.matchMedia\('\(prefers-reduced-motion: reduce\)'\)\.matches\) return;/);
+  assert.match(script, /copy\.animate\(/);
+  assert.match(script, /visual\.animate\(/);
   assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.navigation-hint\s*\{[^}]*display:\s*none/s);
 });
 
@@ -200,6 +220,6 @@ test('settings frames use the recovered desktop space and stack on narrow mobile
   assert.doesNotMatch(css, /\.product-shot\.phone-frame\s*>\s*img\s*\{/s);
   assert.match(css, /\.cover-identity\s*\{/);
   assert.match(css, /@media \(max-width: 520px\)\s*\{[\s\S]*?\.screen-pair\s*\{[^}]*grid-template-columns:\s*1fr/s);
-  assert.match(css, /@media \(max-height: 820px\) and \(min-width: 761px\) and \(orientation: landscape\)\s*\{[\s\S]*?\.slide-content\s*\{[^}]*min-height:\s*29rem/s);
+  assert.match(css, /@media \(max-height: 820px\) and \(min-width: 761px\) and \(orientation: landscape\)\s*\{[\s\S]*?\.deck\s*\{[^}]*--stage-min-height:\s*29rem/s);
   assert.match(css, /@media \(max-height: 820px\) and \(min-width: 761px\) and \(orientation: landscape\)\s*\{[\s\S]*?\.product-shot\.phone-frame\s*\{[^}]*width:\s*min\(100%,\s*14\.75rem\)/s);
 });
