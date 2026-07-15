@@ -49,7 +49,7 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(script, /assets\/siri-logo\.png/);
   assert.match(script, /VOICE REQUEST/);
   assert.match(script, /AUDIO RESPONSE/);
-  assert.match(script, /76 mg\/dL, stable, in range, 1 minute ago\./);
+  assert.match(script, /76 mg\/dL · stable · in range · 1 minute ago\./);
   assert.match(script, /class="voice-response-sentence"/);
   assert.match(script, /class="voice-speaking-icon"/);
   assert.match(script, /<svg[^>]*viewBox="0 0 24 24"/);
