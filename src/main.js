@@ -20,7 +20,7 @@ function visualFor(slide) {
   if (slide.layout === 'demo') {
     return `<div class="demo-frame">
       <div class="demo-top"><span class="dot"></span><span>iPhone · mock data</span></div>
-      <div class="demo-placeholder"><strong>Mock interface capture</strong><span>Added from the iOS Simulator</span></div>
+      <img class="demo-image" src="assets/sugcar-login-mock.png" alt="Sugcar mock login screen with Nightscout URL and API secret fields, a safety awareness message, and BGM verification guidance." />
       <p class="demo-note">Video slot: driving-context Siri flow</p>
     </div>`;
   }
