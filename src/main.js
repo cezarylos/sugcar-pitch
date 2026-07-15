@@ -1,4 +1,4 @@
-import { clampSlideIndex, slideHash, slides } from './deck.js';
+import { clampSlideIndex, slideHash, slides } from './deck.js?v=20260715-3';
 
 const app = document.querySelector('#app');
 const hashIndex = () => {
@@ -7,59 +7,140 @@ const hashIndex = () => {
 };
 let activeIndex = hashIndex();
 
-const escapeHtml = (value) => value.replace(/[&<>'"]/g, (character) => ({
-  '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
-}[character]));
+app.insertAdjacentHTML('beforeend', `
+  <section class="deck" id="slide" aria-roledescription="slide">
+    <header class="topbar">
+      <a href="#slide-1" class="brand" aria-label="Sugcar pitch home"><img src="assets/sugcar-brand-icon.png" alt="" /><span class="brand-word">Sug<span>car</span></span></a>
+      <span class="counter" data-counter></span>
+    </header>
+    <div class="slide-content">
+      <div class="copy">
+        <div class="cover-identity" data-cover-identity hidden><img src="assets/sugcar-brand-icon.png" alt="" /><span>Sugcar</span></div>
+        <p class="eyebrow" data-eyebrow></p>
+        <h1 data-title></h1>
+        <div class="body" data-body></div>
+      </div>
+      <div class="visual" data-visual></div>
+    </div>
+    <nav class="controls" aria-label="Presentation navigation">
+      <button class="control" data-previous aria-label="Previous slide">← <span>Back</span></button>
+      <div class="progress" aria-hidden="true"><i data-progress></i></div>
+      <button class="control control--next" data-next aria-label="Next slide"><span>Next</span> →</button>
+    </nav>
+  </section>`);
+
+const stage = document.querySelector('#slide');
+const eyebrow = document.querySelector('[data-eyebrow]');
+const title = document.querySelector('[data-title]');
+const body = document.querySelector('[data-body]');
+const visual = document.querySelector('[data-visual]');
+const counter = document.querySelector('[data-counter]');
+const previous = document.querySelector('[data-previous]');
+const next = document.querySelector('[data-next]');
+const progress = document.querySelector('[data-progress]');
+const coverIdentity = document.querySelector('[data-cover-identity]');
+const phoneChrome = () => `
+  <i class="phone-island" aria-hidden="true"></i>
+  <i class="phone-side phone-side--action" aria-hidden="true"></i>
+  <i class="phone-side phone-side--volume-up" aria-hidden="true"></i>
+  <i class="phone-side phone-side--volume-down" aria-hidden="true"></i>
+  <i class="phone-side phone-side--power" aria-hidden="true"></i>`;
 
 function visualFor(slide) {
+  if (slide.layout === 'cover') {
+    return `<figure class="hero-shot phone-frame">
+      ${phoneChrome()}
+      <img src="assets/sugcar-dashboard.png" alt="Sugcar dashboard showing a current glucose reading of 76 milligrams per decilitre, stable trend, read aloud control, and in-range status." />
+    </figure>`;
+  }
+  if (slide.layout === 'problem') {
+    return `<div class="question-card" aria-label="A simplified Siri request">
+      <span class="question-label">WHILE DRIVING</span>
+      <p>“Hey Siri, check my blood sugar.”</p>
+      <span class="question-answer">76 mg/dL&nbsp;&nbsp;→&nbsp;&nbsp;<b>In range</b></span>
+    </div>`;
+  }
+  if (slide.layout === 'away') {
+    return `<section class="away-card" aria-label="A nighttime Sugcar voice check">
+      <span>WHEN THE PHONE IS AWAY</span>
+      <strong>“Hey Siri, check my blood sugar.”</strong>
+      <small>A quiet answer, without reaching for the screen.</small>
+    </section>`;
+  }
   if (slide.layout === 'flow') {
-    return `<div class="flow" aria-label="Data flow: Gluroo or Nightscout cloud to iPhone, then to Siri, Live Activity, and optional speech">
-      <span>Gluroo /<br>Nightscout</span><i>→</i><span>iPhone</span><i>→</i><span>Siri<br><small>Live Activity · Speech</small></span>
+    return `<div class="flow" aria-label="Direct data flow from the user’s Gluroo or Nightscout source to Sugcar on iPhone, then Siri, Lock Screen, and optional speech">
+      <span>Your Gluroo /<br>Nightscout</span><i>→</i><span>Sugcar<br><small>on iPhone</small></span><i>→</i><span>Siri<br><small>Lock Screen · Speech</small></span>
     </div>`;
   }
-  if (slide.layout === 'demo') {
-    return `<div class="demo-frame">
-      <div class="demo-top"><span class="dot"></span><span>iPhone · mock data</span></div>
-      <img class="demo-image" src="assets/sugcar-login-mock.png" alt="Sugcar mock login screen with Nightscout URL and API secret fields, a safety awareness message, and BGM verification guidance." />
-      <p class="demo-note">Video slot: driving-context Siri flow</p>
+  if (slide.layout === 'gallery') {
+    return `<div class="screen-pair" aria-label="Sugcar settings screens">
+      <figure class="product-shot phone-frame product-shot--core">${phoneChrome()}<img src="assets/sugcar-settings-core.png" alt="Full Sugcar settings screen with appearance, glucose units and range, voice selection, and Lock Screen options." /></figure>
+      <figure class="product-shot phone-frame product-shot--voice">${phoneChrome()}<img src="assets/sugcar-settings-voice.png" alt="Full Sugcar advanced voice settings screen with controls for unit, trend, range status, and time." /></figure>
     </div>`;
   }
-  if (slide.layout === 'safety') {
-    return `<div class="guardrails"><span>Current signal</span><span>Stale / offline</span><span>Verify with BGM</span></div>`;
+  if (slide.layout === 'voice') {
+    return `<section class="voice-card" aria-label="Examples of Sugcar’s configurable Siri feedback">
+      <p class="voice-card-label">WHAT SIRI CAN SAY</p>
+      <p class="voice-value">104 <small>mg/dL</small></p>
+      <div class="trend-words" aria-label="Supported trend descriptions">
+        <span><b>→</b> stable</span>
+        <span><b>↗</b> rising slightly</span>
+        <span><b>↑↑</b> rising rapidly</span>
+        <span><b>↘</b> falling slightly</span>
+        <span><b>↓↓</b> falling rapidly</span>
+      </div>
+    </section>`;
   }
-  if (slide.layout === 'principles') {
-    return `<div class="principles"><span>Direct connection</span><span>Keychain credentials</span><span>On-device voice</span></div>`;
+  if (slide.layout === 'demo-app') {
+    return `<section class="demo-stage" aria-label="Reserved placeholder for the Sugcar app walkthrough video">
+      <p class="demo-kicker">APP WALKTHROUGH</p>
+      <strong>Dashboard → settings → voice</strong>
+      <small>Replace with your app walkthrough video</small>
+    </section>`;
   }
-  return `<div class="reading-card" aria-label="Illustrative glucose reading"><div class="reading-meta">SUGCAR <span>NOW</span></div><div class="reading-value">108 <b>→</b></div><div class="reading-detail">mg/dL <span>In range</span></div><div class="reading-time">Updated 1 min ago</div></div>`;
+  if (slide.layout === 'demo-driving') {
+    return `<section class="demo-stage" aria-label="Reserved placeholder for the Sugcar Siri and CarPlay driving video">
+      <p class="demo-kicker">DRIVING DEMO</p>
+      <strong>Siri + CarPlay</strong>
+      <small>Replace with your driving-context video</small>
+    </section>`;
+  }
+  return '';
 }
 
 function render() {
   const slide = slides[activeIndex];
-  const atStart = activeIndex === 0;
-  const atEnd = activeIndex === slides.length - 1;
-  app.innerHTML = `<section class="deck deck--${slide.layout}" id="slide" tabindex="-1" aria-roledescription="slide" aria-label="Slide ${activeIndex + 1} of ${slides.length}">
-    <header class="topbar"><a href="#slide-1" class="brand" aria-label="Sugcar pitch home">Sug<span>car</span></a><span class="counter">${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}</span></header>
-    <div class="slide-content"><div class="copy"><p class="eyebrow">${escapeHtml(slide.eyebrow)}</p><h1>${escapeHtml(slide.title)}</h1><div class="body">${slide.body.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('')}</div></div><div class="visual">${visualFor(slide)}</div></div>
-    <nav class="controls" aria-label="Presentation navigation"><button class="control" data-direction="previous" ${atStart ? 'disabled' : ''} aria-label="Previous slide">← <span>Back</span></button><div class="progress" aria-hidden="true"><i style="transform:scaleX(${(activeIndex + 1) / slides.length})"></i></div><button class="control control--next" data-direction="next" ${atEnd ? 'disabled' : ''} aria-label="Next slide"><span>Next</span> →</button></nav>
-  </section>`;
-  document.querySelectorAll('[data-direction]').forEach((button) => button.addEventListener('click', () => go(button.dataset.direction === 'next' ? 1 : -1)));
+  coverIdentity.hidden = slide.layout !== 'cover';
+  stage.className = `deck deck--${slide.layout}`;
+  stage.setAttribute('aria-label', `Slide ${activeIndex + 1} of ${slides.length}`);
+  eyebrow.textContent = slide.eyebrow;
+  title.textContent = slide.title;
+  body.replaceChildren(...slide.body.map((paragraph) => {
+    const element = document.createElement('p');
+    element.textContent = paragraph;
+    return element;
+  }));
+  visual.innerHTML = visualFor(slide);
+  counter.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+  progress.style.transform = `scaleX(${(activeIndex + 1) / slides.length})`;
+  previous.disabled = activeIndex === 0;
+  next.disabled = activeIndex === slides.length - 1;
 }
 
-function go(delta) {
-  const nextIndex = clampSlideIndex(activeIndex + delta, slides.length);
-  if (nextIndex === activeIndex) return;
-  activeIndex = nextIndex;
+function navigate(index) {
+  activeIndex = clampSlideIndex(index, slides.length);
   window.location.hash = slideHash(activeIndex);
   render();
-  document.querySelector('#slide').focus();
 }
 
+previous.addEventListener('click', () => navigate(activeIndex - 1));
+next.addEventListener('click', () => navigate(activeIndex + 1));
 window.addEventListener('hashchange', () => { activeIndex = hashIndex(); render(); });
 window.addEventListener('keydown', (event) => {
-  if (['ArrowRight', ' ', 'PageDown'].includes(event.key)) { event.preventDefault(); go(1); }
-  if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); go(-1); }
-  if (event.key === 'Home') { event.preventDefault(); activeIndex = 0; window.location.hash = slideHash(activeIndex); render(); }
-  if (event.key === 'End') { event.preventDefault(); activeIndex = slides.length - 1; window.location.hash = slideHash(activeIndex); render(); }
+  if (['ArrowRight', ' ', 'PageDown'].includes(event.key)) { event.preventDefault(); navigate(activeIndex + 1); }
+  if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); navigate(activeIndex - 1); }
+  if (event.key === 'Home') { event.preventDefault(); navigate(0); }
+  if (event.key === 'End') { event.preventDefault(); navigate(slides.length - 1); }
 });
 
 render();
