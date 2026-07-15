@@ -1,4 +1,4 @@
-import { clampSlideIndex, slideHash, slides } from './deck.js?v=20260715-3';
+import { clampSlideIndex, slideHash, slides } from './deck.js?v=20260715-5';
 
 const app = document.querySelector('#app');
 const hashIndex = () => {
@@ -24,7 +24,10 @@ app.insertAdjacentHTML('beforeend', `
     </div>
     <nav class="controls" aria-label="Presentation navigation">
       <button class="control" data-previous aria-label="Previous slide">← <span>Back</span></button>
-      <div class="progress" aria-hidden="true"><i data-progress></i></div>
+      <div class="navigation-status">
+        <div class="progress" aria-hidden="true"><i data-progress></i></div>
+        <p class="navigation-hint">Use ← → arrow keys to navigate</p>
+      </div>
       <button class="control control--next" data-next aria-label="Next slide"><span>Next</span> →</button>
     </nav>
   </section>`);
@@ -59,13 +62,6 @@ function visualFor(slide) {
       <p>“Hey Siri, check my blood sugar.”</p>
       <span class="question-answer">76 mg/dL&nbsp;&nbsp;→&nbsp;&nbsp;<b>In range</b></span>
     </div>`;
-  }
-  if (slide.layout === 'away') {
-    return `<section class="away-card" aria-label="A nighttime Sugcar voice check">
-      <span>WHEN THE PHONE IS AWAY</span>
-      <strong>“Hey Siri, check my blood sugar.”</strong>
-      <small>A quiet answer, without reaching for the screen.</small>
-    </section>`;
   }
   if (slide.layout === 'flow') {
     return `<div class="flow" aria-label="Direct data flow from the user’s Gluroo or Nightscout source to Sugcar on iPhone, then Siri, Lock Screen, and optional speech">

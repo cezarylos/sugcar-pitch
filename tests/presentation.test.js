@@ -13,6 +13,8 @@ test('presentation shell exposes accessible keyboard-first controls', async () =
   assert.match(html, /src\/main\.js\?v=/);
   assert.match(script, /ArrowRight/);
   assert.match(script, /ArrowLeft/);
+  assert.match(script, /Use ← → arrow keys to navigate/);
+  assert.match(script, /<nav class="controls"[\s\S]*?<div class="navigation-status">[\s\S]*?<p class="navigation-hint">Use ← → arrow keys to navigate<\/p>[\s\S]*?<\/nav>/);
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /:focus-visible/);
 });
@@ -95,22 +97,24 @@ test('phone frames fit the stage and settings screens share one vertical baselin
   assert.doesNotMatch(css, /\.product-shot--voice\s*\{[^}]*transform\s*:/s);
 });
 
-test('cover identity and phone-away slide use the real Sugcar asset and Siri interaction', async () => {
+test('cover identity remains while the phone-away slide stays out of the active deck', async () => {
   const script = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
 
   assert.match(script, /class="cover-identity"/);
   assert.match(script, /assets\/sugcar-brand-icon\.png/);
-  assert.match(script, /slide\.layout === 'away'/);
-  assert.match(script, /class="away-card"/);
-  assert.match(script, /Hey Siri, check my blood sugar\./);
+  assert.doesNotMatch(script, /slide\.layout === 'away'/);
+  assert.doesNotMatch(script, /class="away-card"/);
 });
 
-test('settings frames use a compact flex pair and smaller screen radii than the hero frame', async () => {
+test('settings frames use the recovered desktop space and stack on narrow mobile screens', async () => {
   const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
 
   assert.match(css, /\.screen-pair\s*\{[^}]*display:\s*flex[^}]*justify-content:\s*center/s);
-  assert.match(css, /\.screen-pair\s*\{[^}]*gap:\s*clamp\(\.75rem,\s*1\.3vw,\s*1rem\)/s);
+  assert.match(css, /\.screen-pair\s*\{[^}]*min-height:\s*36rem/s);
+  assert.match(css, /\.product-shot\.phone-frame\s*\{[^}]*width:\s*min\(100%,\s*17\.25rem\)/s);
   assert.match(css, /\.product-shot\.phone-frame\s*>\s*img\s*\{[^}]*border-radius:\s*2\.05rem/s);
   assert.match(css, /\.cover-identity\s*\{/);
-  assert.match(css, /\.away-card\s*\{/);
+  assert.match(css, /@media \(max-width: 520px\)\s*\{[\s\S]*?\.screen-pair\s*\{[^}]*grid-template-columns:\s*1fr/s);
+  assert.match(css, /@media \(max-height: 760px\) and \(min-width: 761px\)\s*\{[\s\S]*?\.slide-content\s*\{[^}]*min-height:\s*29rem/s);
+  assert.match(css, /@media \(max-height: 760px\) and \(min-width: 761px\)\s*\{[\s\S]*?\.hero-shot\.phone-frame\s*\{[^}]*width:\s*min\(100%,\s*14\.75rem\)/s);
 });

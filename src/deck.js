@@ -12,12 +12,6 @@ export const slides = [
     layout: 'problem'
   },
   {
-    eyebrow: 'Beyond the car',
-    title: 'When the phone is out of reach.',
-    body: ['Ask for a quick reading when the phone is across the room—especially at night, without reaching for or waking the device.'],
-    layout: 'away'
-  },
-  {
     eyebrow: 'Your source, not ours',
     title: 'No new health-data cloud.',
     body: ['Sugcar reads the latest value directly from your existing Nightscout / Gluroo setup—without adding another data silo.'],

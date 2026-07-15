@@ -2,21 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { slides, clampSlideIndex, slideHash } from '../src/deck.js';
 
-test('deck has a concise eight-slide maker narrative', () => {
-  assert.equal(slides.length, 8);
+test('deck has a concise seven-slide maker narrative', () => {
+  assert.equal(slides.length, 7);
   assert.equal(slides[0].title, 'Sugcar');
-  assert.deepEqual(slides.slice(1, 4).map((slide) => slide.layout), ['problem', 'away', 'flow']);
+  assert.deepEqual(slides.slice(1, 3).map((slide) => slide.layout), ['problem', 'flow']);
   assert.equal(slides.at(-1).layout, 'demo-driving');
   assert.match(slides.flatMap((slide) => slide.body).join(' '), /Nightscout \/ Gluroo/);
   assert.ok(slides.every((slide) => slide.body.length <= 2));
 });
 
-test('phone-away copy describes a nighttime voice check', () => {
-  const away = slides.find((slide) => slide.layout === 'away');
-  assert.ok(away);
-  assert.equal(away.title, 'When the phone is out of reach.');
-  assert.match(away.body.join(' '), /across the room.*especially at night/i);
-  assert.match(away.body.join(' '), /without reaching for or waking the device/i);
+test('the phone-away idea is out of the active deck for now', () => {
+  assert.equal(slides.some((slide) => slide.layout === 'away'), false);
 });
 
 test('navigation clamps indices and supplies stable slide hashes', () => {
