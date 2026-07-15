@@ -1,4 +1,4 @@
-import { clampSlideIndex, slideHash, slides } from './deck.js?v=20260715-6';
+import { clampSlideIndex, slideHash, slides } from './deck.js?v=20260715-7';
 
 const app = document.querySelector('#app');
 const hashIndex = () => {
@@ -51,17 +51,17 @@ const phoneChrome = () => `
 
 function visualFor(slide) {
   if (slide.layout === 'cover') {
-    return `<figure class="hero-shot phone-frame">
+    return `<section class="cover-proof" aria-label="Sugcar’s Siri voice-first interaction">
+      <span class="siri-orb"><img src="assets/siri-logo.png" alt="Siri" /></span>
+      <span class="proof-copy"><b>VOICE-FIRST CHECK</b><p>“Hey Siri, check my blood sugar.”</p></span>
+      <i class="cover-wave" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></i>
+    </section>`;
+  }
+  if (slide.layout === 'problem') {
+    return `<figure class="problem-shot phone-frame">
       ${phoneChrome()}
       <img src="assets/sugcar-dashboard.png" alt="Sugcar dashboard showing a current glucose reading of 76 milligrams per decilitre, stable trend, read aloud control, and in-range status." />
     </figure>`;
-  }
-  if (slide.layout === 'problem') {
-    return `<div class="question-card" aria-label="A simplified Siri request">
-      <span class="question-label">WHILE DRIVING</span>
-      <p>“Hey Siri, check my blood sugar.”</p>
-      <span class="question-answer">76 mg/dL&nbsp;&nbsp;→&nbsp;&nbsp;<b>In range</b></span>
-    </div>`;
   }
   if (slide.layout === 'flow') {
     return `<div class="flow" aria-label="Direct data flow from the user’s Gluroo or Nightscout source to Sugcar on iPhone, then Siri, Lock Screen, and optional speech">

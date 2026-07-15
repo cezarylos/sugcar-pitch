@@ -74,23 +74,28 @@ test('the deck mirrors Sugcar’s rounded system typography, full settings scree
   assert.doesNotMatch(script, /Current signal, at a glance/);
 });
 
-test('cover uses the real Sugcar icon and an uncropped iPhone-style device frame', async () => {
+test('cover uses a desktop-only editorial hero and moves the framed dashboard to the problem slide', async () => {
   const script = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
   const deck = await readFile(new URL('../src/deck.js', import.meta.url), 'utf8');
   const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
 
   assert.match(script, /assets\/sugcar-brand-icon\.png/);
-  assert.match(script, /phone-frame/);
+  assert.match(script, /class="cover-proof"/);
+  assert.match(script, /class="siri-orb"/);
+  assert.match(script, /assets\/siri-logo\.png/);
+  assert.match(script, /class="problem-shot phone-frame"/);
   assert.match(script, /phone-island/);
   assert.equal((script.match(/product-shot phone-frame/g) ?? []).length, 2);
   assert.match(deck, /The moment you should not look at your phone\./);
   assert.match(css, /--phone-frame:/);
-  assert.match(css, /\.hero-shot\.phone-frame/);
+  assert.match(css, /\.problem-shot\.phone-frame/);
   assert.match(css, /aspect-ratio:\s*70\.6\s*\/\s*146\.6/);
   assert.match(css, /aspect-ratio:\s*393\s*\/\s*852/);
-  assert.match(css, /\.deck--cover\s+\.copy h1\s*\{[^}]*max-width:\s*10ch/s);
+  assert.match(css, /\.deck--cover\s+\.slide-content\s*\{[^}]*grid-template-columns:\s*1fr/s);
+  assert.match(css, /\.deck--cover\s+\.copy h1\s*\{[^}]*max-width:\s*12ch/s);
   assert.match(css, /\.deck--cover\s+\.cover-identity\s*\{[^}]*display:\s*none/s);
-  assert.match(css, /\.deck--cover\s+\.hero-shot\.phone-frame\s*\{[^}]*width:\s*min\(100%,\s*18rem\)/s);
+  assert.match(css, /\.cover-proof\s*\{/);
+  assert.match(css, /\.siri-orb\s*\{/);
   assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.navigation-hint\s*\{[^}]*display:\s*none/s);
 });
 
