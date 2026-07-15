@@ -17,7 +17,7 @@ Open `http://localhost:4173`. Use the arrow keys, Space, Home, End, or the visib
 
 ## Deploy
 
-Push to `main`. The GitHub Actions workflow publishes the static site using GitHub Pages. In repository settings, choose **Pages → Build and deployment → Source: GitHub Actions** if this has not already been enabled.
+Push to `main`. In repository settings, choose **Pages → Build and deployment → Deploy from a branch → main / (root)**. GitHub Pages then serves this dependency-free static site directly.
 
 ## Accuracy commitments
 
