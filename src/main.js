@@ -1,4 +1,4 @@
-import { clampSlideIndex, slideHash, slides } from './deck.js?v=20260715-5';
+import { clampSlideIndex, slideHash, slides } from './deck.js?v=20260715-6';
 
 const app = document.querySelector('#app');
 const hashIndex = () => {

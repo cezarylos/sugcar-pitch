@@ -4,7 +4,7 @@ import { slides, clampSlideIndex, slideHash } from '../src/deck.js';
 
 test('deck has a concise seven-slide maker narrative', () => {
   assert.equal(slides.length, 7);
-  assert.equal(slides[0].title, 'Sugcar');
+  assert.equal(slides[0].title, 'The moment you should not look at your phone.');
   assert.deepEqual(slides.slice(1, 3).map((slide) => slide.layout), ['problem', 'flow']);
   assert.equal(slides.at(-1).layout, 'demo-driving');
   assert.match(slides.flatMap((slide) => slide.body).join(' '), /Nightscout \/ Gluroo/);
@@ -13,6 +13,12 @@ test('deck has a concise seven-slide maker narrative', () => {
 
 test('the phone-away idea is out of the active deck for now', () => {
   assert.equal(slides.some((slide) => slide.layout === 'away'), false);
+});
+
+test('cover leads with the personal safety moment', () => {
+  const cover = slides[0];
+  assert.equal(cover.title, 'The moment you should not look at your phone.');
+  assert.match(cover.body.join(' '), /personal iOS project.*voice-first/i);
 });
 
 test('navigation clamps indices and supplies stable slide hashes', () => {

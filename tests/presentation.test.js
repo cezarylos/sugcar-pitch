@@ -66,7 +66,7 @@ test('the deck mirrors Sugcar’s rounded system typography, full settings scree
   const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
 
   assert.match(script, /“Hey Siri, check my blood sugar\.”/);
-  assert.match(deck, /Checking glucose while driving felt like the wrong kind of\u00a0interaction/);
+  assert.match(deck, /The moment you should not look at your phone\./);
   assert.doesNotMatch(deck, /I built it because checking glucose/);
   assert.match(deck, /One question\. No\u00a0screen hunt\./);
   assert.match(css, /ui-rounded/);
@@ -83,11 +83,15 @@ test('cover uses the real Sugcar icon and an uncropped iPhone-style device frame
   assert.match(script, /phone-frame/);
   assert.match(script, /phone-island/);
   assert.equal((script.match(/product-shot phone-frame/g) ?? []).length, 2);
-  assert.match(deck, /of\u00a0interaction/);
+  assert.match(deck, /The moment you should not look at your phone\./);
   assert.match(css, /--phone-frame:/);
   assert.match(css, /\.hero-shot\.phone-frame/);
   assert.match(css, /aspect-ratio:\s*70\.6\s*\/\s*146\.6/);
   assert.match(css, /aspect-ratio:\s*393\s*\/\s*852/);
+  assert.match(css, /\.deck--cover\s+\.copy h1\s*\{[^}]*max-width:\s*10ch/s);
+  assert.match(css, /\.deck--cover\s+\.cover-identity\s*\{[^}]*display:\s*none/s);
+  assert.match(css, /\.deck--cover\s+\.hero-shot\.phone-frame\s*\{[^}]*width:\s*min\(100%,\s*18rem\)/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.navigation-hint\s*\{[^}]*display:\s*none/s);
 });
 
 test('phone frames fit the stage and settings screens share one vertical baseline', async () => {

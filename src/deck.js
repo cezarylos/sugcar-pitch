@@ -1,8 +1,8 @@
 export const slides = [
   {
     eyebrow: 'A personal iOS project',
-    title: 'Sugcar',
-    body: ['Checking glucose while driving felt like the wrong kind of interaction.'],
+    title: 'The moment you should not look at your phone.',
+    body: ['A personal iOS project for a safer, voice-first glucose check.'],
     layout: 'cover'
   },
   {
