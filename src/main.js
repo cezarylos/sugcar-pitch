@@ -62,8 +62,7 @@ function visualFor(slide) {
       <div class="voice-wave-bridge" aria-hidden="true"><i class="cover-wave"><b></b><b></b><b></b><b></b><b></b></i><span>→</span></div>
       <div class="voice-response-card">
         <p class="voice-step-label">AUDIO RESPONSE</p>
-        <p class="voice-response-value">76 <small>mg/dL</small><b>→</b></p>
-        <p class="voice-response-context">Stable · In range · 1 minute ago</p>
+        <p class="voice-response-sentence">76 mg/dL, stable, in range, 1 minute ago.</p>
       </div>
       <p class="voice-boundary">Informational only · Verify with BGM</p>
     </section>`;

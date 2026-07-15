@@ -75,10 +75,7 @@ button { font: inherit; }
 .voice-wave-bridge .cover-wave b:nth-child(2), .voice-wave-bridge .cover-wave b:nth-child(4) { height: 1.25rem; }
 .voice-wave-bridge .cover-wave b:nth-child(3) { height: 2rem; }
 .voice-wave-bridge span { font-size: 1.45rem; font-weight: 700; line-height: 1; }
-.voice-response-value { margin: 0; display: flex; align-items: end; gap: .38rem; color: var(--navy); font-size: clamp(2.7rem, 4.5vw, 4.25rem); font-weight: 800; letter-spacing: -.07em; line-height: .84; }
-.voice-response-value small { padding-bottom: .2rem; color: var(--muted); font-size: .3em; font-weight: 650; letter-spacing: -.02em; }
-.voice-response-value b { padding: 0 0 .02rem .2rem; color: var(--range-good); font-size: .68em; font-weight: 750; letter-spacing: -.04em; }
-.voice-response-context { margin: 0; color: var(--muted); font-size: clamp(.82rem, 1.1vw, .98rem); font-weight: 700; letter-spacing: -.015em; line-height: 1.35; }
+.voice-response-sentence { max-width: 13ch; margin: 0; color: var(--navy); font-size: clamp(1.4rem, 2.2vw, 2.2rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.08; }
 .voice-boundary { grid-column: 1 / -1; margin: .2rem 0 0; padding-top: .8rem; color: var(--muted); border-top: 1px solid var(--line); font-size: .76rem; font-weight: 650; letter-spacing: .01em; }
 
 .question-card { min-height: 19rem; padding: clamp(1.5rem, 4vw, 2.7rem); display: flex; flex-direction: column; justify-content: space-between; background: var(--card); border: 1px solid rgba(13, 33, 60, .1); border-radius: 1.5rem; box-shadow: 0 1rem 2.4rem rgba(26, 42, 60, .1); }

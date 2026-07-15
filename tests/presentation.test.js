@@ -49,12 +49,14 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(script, /assets\/siri-logo\.png/);
   assert.match(script, /VOICE REQUEST/);
   assert.match(script, /AUDIO RESPONSE/);
-  assert.match(script, /Stable · In range · 1 minute ago/);
+  assert.match(script, /76 mg\/dL, stable, in range, 1 minute ago\./);
+  assert.match(script, /class="voice-response-sentence"/);
   assert.match(script, /No Sugcar cloud account/);
   assert.doesNotMatch(script, /class="problem-visual"/);
   assert.doesNotMatch(script, /class="problem-bridge"/);
   assert.match(css, /\.voice-interaction\s*\{[^}]*grid-template-columns:/s);
   assert.match(css, /\.voice-request-card\s*,\s*\.voice-response-card\s*\{/);
+  assert.match(css, /\.voice-response-sentence\s*\{/);
   assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.voice-interaction\s*\{[^}]*grid-template-columns:\s*1fr/s);
   assert.match(script, /assets\/sugcar-settings-core\.png/);
   assert.match(script, /assets\/sugcar-settings-voice\.png/);
