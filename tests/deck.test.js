@@ -69,5 +69,5 @@ test('the closing returns to the personal reason for the project', () => {
   const closing = slides.at(-1);
   assert.equal(closing.title, 'One important check. Less visual attention.');
   assert.match(closing.body.join(' '), /voice-first.*user in control/i);
-  assert.match(closing.body.join(' '), /Diabetes asks a lot, every day\. Thoughtful technology can make one moment lighter\./);
+  assert.match(closing.body.join(' '), /Diabetes asks a lot, every day\. Thoughtful technology can make one important check feel lighter\./);
 });

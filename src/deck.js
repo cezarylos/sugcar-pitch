@@ -44,7 +44,7 @@ export const slides = [
   {
     eyebrow: 'Why I made it',
     title: 'One important check. Less visual attention.',
-    body: ['A voice-first check that keeps the user in control of what is shared and said aloud.', 'Diabetes asks a lot, every day. Thoughtful technology can make one moment lighter.'],
+    body: ['A voice-first check that keeps the user in control of what is shared and said aloud.', 'Diabetes asks a lot, every day. Thoughtful technology can make one important check feel lighter.'],
     layout: 'closing'
   }
 ];
