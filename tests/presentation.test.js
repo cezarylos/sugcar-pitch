@@ -2,6 +2,21 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 
+test('public branding uses one navy SugCar wordmark', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  const script = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
+  const deck = await readFile(new URL('../src/deck.js', import.meta.url), 'utf8');
+  const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
+  const readme = await readFile(new URL('../README.md', import.meta.url), 'utf8');
+  const publicCopy = [html, script, deck, readme].join('\n');
+
+  assert.match(script, /<span class="brand-word">SugCar<\/span>/);
+  assert.match(script, /<span>SugCar<\/span>/);
+  assert.doesNotMatch(script, /Sug<span>car<\/span>/);
+  assert.doesNotMatch(css, /\.brand-word span\s*\{/);
+  assert.doesNotMatch(publicCopy, /Sugcar/);
+});
+
 test('presentation shell exposes accessible keyboard-first controls', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
   const script = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
@@ -61,7 +76,7 @@ test('navigation ignores requests for the already active slide', async () => {
   assert.match(script, /function navigate\(index\)\s*\{\s*const targetIndex = clampSlideIndex\(index, slides\.length\);\s*if \(targetIndex === activeIndex\) return;/s);
 });
 
-test('visual tokens follow Sugcar’s actual light interface and range colors', async () => {
+test('visual tokens follow SugCar’s actual light interface and range colors', async () => {
   const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
 
   assert.match(css, /--app-background:\s*#f0f4fc/);
@@ -86,7 +101,7 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(script, /class="voice-response-sentence"/);
   assert.match(script, /class="voice-speaking-icon"/);
   assert.match(script, /<svg[^>]*viewBox="0 0 24 24"/);
-  assert.match(script, /No Sugcar cloud account/);
+  assert.match(script, /No SugCar cloud account/);
   assert.doesNotMatch(script, /class="problem-visual"/);
   assert.doesNotMatch(script, /class="problem-bridge"/);
   assert.match(css, /\.voice-interaction\s*\{[^}]*grid-template-columns:/s);
@@ -168,7 +183,7 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(css, /\.deck--closing\s+\.body p:first-child\s*\{[^}]*font-weight:\s*400/s);
   assert.match(css, /\.closing-proof\s*\{[^}]*min-height:\s*16rem/s);
   assert.match(script, /class="closing-contact"/);
-  assert.match(script, /Curious about Sugcar\?/);
+  assert.match(script, /Curious about SugCar\?/);
   assert.match(script, /Want to try it, share feedback, or just ask a question\? I’d love to hear from you\./);
   assert.match(script, /Please don’t include personal health information\./);
   assert.match(script, /<span>Contact me<\/span>/);
@@ -176,7 +191,7 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(script, /href="mailto:sugcar\.app@gmail\.com"/);
   assert.match(script, /target="_blank"/);
   assert.match(script, /rel="noopener noreferrer"/);
-  assert.match(script, /aria-label="Contact Sugcar by email at sugcar\.app@gmail\.com"/);
+  assert.match(script, /aria-label="Contact SugCar by email at sugcar\.app@gmail\.com"/);
   assert.match(css, /\.closing-contact\s*\{[^}]*border-top:\s*1px\s+solid\s+var\(--line\)/s);
   assert.match(css, /\.closing-contact-link\s*\{[^}]*color:\s*#fff[^}]*background:\s*var\(--range-good\)/s);
   assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.closing-contact\s*\{[^}]*grid-template-columns:\s*1fr/s);
@@ -195,13 +210,13 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(script, /falling rapidly/);
   assert.doesNotMatch(script, /rising slightly<\/strong>, in range/);
   assert.match(script, /app walkthrough/i);
-  assert.match(script, /aria-label="Sugcar Siri interaction through CarPlay"/);
-  assert.match(script, /aria-label="Play the Sugcar CarPlay driving demo in fullscreen"/);
+  assert.match(script, /aria-label="SugCar Siri interaction through CarPlay"/);
+  assert.match(script, /aria-label="Play the SugCar CarPlay driving demo in fullscreen"/);
   assert.doesNotMatch(script, /Unit · trend · range · age — each optional/);
   assert.doesNotMatch(script, /add screenshot/i);
 });
 
-test('the deck mirrors Sugcar’s rounded system typography, full settings screens, and real Siri phrase', async () => {
+test('the deck mirrors SugCar’s rounded system typography, full settings screens, and real Siri phrase', async () => {
   const script = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
   const deck = await readFile(new URL('../src/deck.js', import.meta.url), 'utf8');
   const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');

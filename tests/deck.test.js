@@ -8,7 +8,7 @@ test('deck has a concise eight-slide maker narrative', () => {
   assert.deepEqual(slides.slice(1, 3).map((slide) => slide.layout), ['problem', 'flow']);
   assert.equal(slides.at(-1).layout, 'closing');
   assert.match(slides.flatMap((slide) => slide.body).join(' '), /Nightscout \/ Gluroo/);
-  assert.match(slides.flatMap((slide) => slide.body).join(' '), /does not create a Sugcar cloud account/i);
+  assert.match(slides.flatMap((slide) => slide.body).join(' '), /does not create a SugCar cloud account/i);
   assert.ok(slides.every((slide) => slide.body.length <= 2));
 });
 

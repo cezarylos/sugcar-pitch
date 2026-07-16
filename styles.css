@@ -26,7 +26,6 @@ button { font: inherit; }
 .brand { display: inline-flex; align-items: center; gap: .58rem; color: var(--navy); text-decoration: none; }
 .brand img { width: 2rem; height: 2rem; border-radius: .54rem; box-shadow: 0 .22rem .55rem rgba(13, 33, 60, .2); }
 .brand-word { color: var(--navy); font-size: 1.45rem; font-weight: 800; letter-spacing: -.035em; }
-.brand-word span { color: var(--range-good); }
 .counter, .eyebrow { color: var(--muted); font: 500 .74rem/1.2 "DM Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
 
 .slide-content { min-height: var(--stage-min-height); display: grid; grid-template-columns: minmax(0, .88fr) minmax(20rem, 1.12fr); align-items: center; gap: clamp(2rem, 6vw, 7rem); }

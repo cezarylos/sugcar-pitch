@@ -14,13 +14,13 @@ export const slides = [
   {
     eyebrow: 'Your source, not ours',
     title: 'No new health-data cloud.',
-    body: ['Sugcar reads the latest value from your existing Nightscout / Gluroo setup. It does not create a Sugcar cloud account or another data silo.'],
+    body: ['SugCar reads the latest value from your existing Nightscout / Gluroo setup. It does not create a SugCar cloud account or another data silo.'],
     layout: 'flow'
   },
   {
     eyebrow: 'The details matter',
     title: 'Control what gets said out loud.',
-    body: ['Make Sugcar fit your routine: from units and personal range to voice, appearance, and Lock Screen.'],
+    body: ['Make SugCar fit your routine: from units and personal range to voice, appearance, and Lock Screen.'],
     layout: 'gallery'
   },
   {

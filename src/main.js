@@ -10,12 +10,12 @@ let activeIndex = hashIndex();
 app.insertAdjacentHTML('beforeend', `
   <section class="deck" id="slide" aria-roledescription="slide">
     <header class="topbar">
-      <a href="#slide-1" class="brand" aria-label="Sugcar pitch home"><img src="assets/sugcar-brand-icon.png" alt="" /><span class="brand-word">Sug<span>car</span></span></a>
+      <a href="#slide-1" class="brand" aria-label="SugCar pitch home"><img src="assets/sugcar-brand-icon.png" alt="" /><span class="brand-word">SugCar</span></a>
       <span class="counter" data-counter></span>
     </header>
     <div class="slide-content">
       <div class="copy">
-        <div class="cover-identity" data-cover-identity hidden><img src="assets/sugcar-brand-icon.png" alt="" /><span>Sugcar</span></div>
+        <div class="cover-identity" data-cover-identity hidden><img src="assets/sugcar-brand-icon.png" alt="" /><span>SugCar</span></div>
         <p class="eyebrow" data-eyebrow></p>
         <h1 data-title></h1>
         <div class="body" data-body></div>
@@ -56,7 +56,7 @@ function visualFor(slide) {
     return '';
   }
   if (slide.layout === 'problem') {
-    return `<section class="voice-interaction" aria-label="Sugcar turns one Siri request into a spoken glucose update">
+    return `<section class="voice-interaction" aria-label="SugCar turns one Siri request into a spoken glucose update">
       <div class="voice-request-card">
         <span class="siri-orb"><img src="assets/siri-logo.png" alt="Siri" /></span>
         <div><p class="voice-step-label">VOICE REQUEST</p><p class="voice-command">“Hey Siri, check my blood sugar.”</p></div>
@@ -70,21 +70,21 @@ function visualFor(slide) {
     </section>`;
   }
   if (slide.layout === 'flow') {
-    return `<div class="flow-wrap" aria-label="Direct data flow from the user’s Gluroo or Nightscout source to Sugcar on iPhone, then Siri, Lock Screen, and optional speech">
+    return `<div class="flow-wrap" aria-label="Direct data flow from the user’s Gluroo or Nightscout source to SugCar on iPhone, then Siri, Lock Screen, and optional speech">
       <div class="flow">
-        <span>Your Gluroo /<br>Nightscout</span><i>→</i><span>Sugcar<br><small>on iPhone</small></span><i>→</i><span>Siri<br><small>Lock Screen · Speech</small></span>
+        <span>Your Gluroo /<br>Nightscout</span><i>→</i><span>SugCar<br><small>on iPhone</small></span><i>→</i><span>Siri<br><small>Lock Screen · Speech</small></span>
       </div>
-      <p class="flow-note"><b>No Sugcar cloud account</b> Your existing source stays in control.</p>
+      <p class="flow-note"><b>No SugCar cloud account</b> Your existing source stays in control.</p>
     </div>`;
   }
   if (slide.layout === 'gallery') {
-    return `<div class="screen-pair" aria-label="Sugcar settings screens">
-      <figure class="product-shot phone-frame product-shot--core">${phoneChrome()}<img src="assets/sugcar-settings-core.png" alt="Full Sugcar settings screen with appearance, glucose units and range, voice selection, and Lock Screen options." /></figure>
-      <figure class="product-shot phone-frame product-shot--voice">${phoneChrome()}<img src="assets/sugcar-settings-voice.png" alt="Full Sugcar advanced voice settings screen with controls for unit, trend, range status, and time." /></figure>
+    return `<div class="screen-pair" aria-label="SugCar settings screens">
+      <figure class="product-shot phone-frame product-shot--core">${phoneChrome()}<img src="assets/sugcar-settings-core.png" alt="Full SugCar settings screen with appearance, glucose units and range, voice selection, and Lock Screen options." /></figure>
+      <figure class="product-shot phone-frame product-shot--voice">${phoneChrome()}<img src="assets/sugcar-settings-voice.png" alt="Full SugCar advanced voice settings screen with controls for unit, trend, range status, and time." /></figure>
     </div>`;
   }
   if (slide.layout === 'voice') {
-    return `<section class="voice-card" aria-label="Examples of Sugcar’s configurable Siri feedback">
+    return `<section class="voice-card" aria-label="Examples of SugCar’s configurable Siri feedback">
       <p class="voice-card-label">CONFIGURE THE RESPONSE</p>
       <div class="voice-options" aria-label="Each response detail is independently optional">
         <span>Reading</span><span>Unit</span><span>Trend</span><span>Range status</span><span>Age</span>
@@ -100,11 +100,11 @@ function visualFor(slide) {
     </section>`;
   }
   if (slide.layout === 'demo-app') {
-    return `<section class="demo-video" aria-label="Sugcar app walkthrough video">
+    return `<section class="demo-video" aria-label="SugCar app walkthrough video">
       <div class="video-actions" aria-label="App walkthrough controls">
         <p class="video-kicker">SEE IT IN USE</p>
         <p class="video-statement">Dashboard, personal settings, and a configurable voice response.</p>
-        <button class="video-fullscreen" type="button" data-video-fullscreen aria-label="Play the Sugcar app walkthrough in fullscreen">
+        <button class="video-fullscreen" type="button" data-video-fullscreen aria-label="Play the SugCar app walkthrough in fullscreen">
           <span class="video-play-symbol" aria-hidden="true">▶</span>
           <span class="video-play-copy"><strong>Watch app walkthrough</strong><small>Tap to play fullscreen</small></span>
         </button>
@@ -115,31 +115,31 @@ function visualFor(slide) {
             <source src="assets/sugcar-app-walkthrough.mp4?v=20260715-2" type="video/mp4" />
             Your browser does not support video playback.
           </video>
-          <button class="video-thumbnail-play" type="button" data-video-fullscreen aria-label="Play the Sugcar app walkthrough in fullscreen" aria-hidden="true" disabled><span aria-hidden="true">▶</span></button>
+          <button class="video-thumbnail-play" type="button" data-video-fullscreen aria-label="Play the SugCar app walkthrough in fullscreen" aria-hidden="true" disabled><span aria-hidden="true">▶</span></button>
         </div>
       </div>
     </section>`;
   }
   if (slide.layout === 'demo-driving') {
-    return `<section class="driving-video media-player" aria-label="Sugcar Siri interaction through CarPlay">
+    return `<section class="driving-video media-player" aria-label="SugCar Siri interaction through CarPlay">
       <video data-demo-video playsinline preload="metadata" poster="assets/sugcar-driving-demo-poster.jpg?v=20260716-1">
         <source src="assets/sugcar-driving-demo.mp4?v=20260716-2" type="video/mp4" />
         Your browser does not support video playback.
       </video>
-      <button class="video-thumbnail-play" type="button" data-video-fullscreen aria-label="Play the Sugcar CarPlay driving demo in fullscreen" aria-hidden="true" disabled><span aria-hidden="true">▶</span></button>
+      <button class="video-thumbnail-play" type="button" data-video-fullscreen aria-label="Play the SugCar CarPlay driving demo in fullscreen" aria-hidden="true" disabled><span aria-hidden="true">▶</span></button>
     </section>`;
   }
   if (slide.layout === 'closing') {
-    return `<section class="closing-proof" aria-label="Sugcar’s personal project principle">
+    return `<section class="closing-proof" aria-label="SugCar’s personal project principle">
       <span class="closing-heart-wrap" aria-hidden="true"><svg class="closing-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z" /></svg></span>
       <p>${slide.body[1]}</p>
       <div class="closing-contact">
         <div class="closing-contact-copy">
-          <p class="closing-contact-title">Curious about Sugcar?</p>
+          <p class="closing-contact-title">Curious about SugCar?</p>
           <p class="closing-contact-invite">Want to try it, share feedback, or just ask a question? I’d love to hear from you.</p>
           <p class="closing-contact-note">Please don’t include personal health information.</p>
         </div>
-        <a class="closing-contact-link" href="mailto:sugcar.app@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Contact Sugcar by email at sugcar.app@gmail.com"><svg class="contact-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="m3 6 9 7 9-7"/></svg><span>Contact me</span></a>
+        <a class="closing-contact-link" href="mailto:sugcar.app@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Contact SugCar by email at sugcar.app@gmail.com"><svg class="contact-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="m3 6 9 7 9-7"/></svg><span>Contact me</span></a>
       </div>
     </section>`;
   }

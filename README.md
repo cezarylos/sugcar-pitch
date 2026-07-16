@@ -1,6 +1,6 @@
-# Sugcar pitch
+# SugCar pitch
 
-A small, keyboard-navigable web deck for introducing Sugcar as a personal health-product project during an interview.
+A small, keyboard-navigable web deck for introducing SugCar as a personal health-product project during an interview.
 
 ## Run locally
 
@@ -21,4 +21,4 @@ Push to `main`. In repository settings, choose **Pages → Build and deployment 
 
 ## Accuracy commitments
 
-The copy deliberately describes Sugcar as a secondary visualization utility. It does not claim a native CarPlay UI, clinical advice, medical-device status, or a no-local-storage design.
+The copy deliberately describes SugCar as a secondary visualization utility. It does not claim a native CarPlay UI, clinical advice, medical-device status, or a no-local-storage design.
