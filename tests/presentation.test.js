@@ -167,6 +167,16 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.doesNotMatch(css, /\.deck--closing\s+\.copy h1\s*\{[^}]*white-space:\s*pre-line/s);
   assert.match(css, /\.deck--closing\s+\.body p:first-child\s*\{[^}]*font-weight:\s*400/s);
   assert.match(css, /\.closing-proof\s*\{[^}]*min-height:\s*16rem/s);
+  assert.match(script, /class="closing-contact"/);
+  assert.match(script, /Questions or interested in testing Sugcar\?/);
+  assert.match(script, /Please don’t include personal health information\./);
+  assert.match(script, /href="mailto:sugcar\.app@gmail\.com"/);
+  assert.match(script, /target="_blank"/);
+  assert.match(script, /rel="noopener noreferrer"/);
+  assert.match(script, /aria-label="Email Sugcar at sugcar\.app@gmail\.com"/);
+  assert.match(css, /\.closing-contact\s*\{[^}]*border-top:\s*1px\s+solid\s+var\(--line\)/s);
+  assert.match(css, /\.closing-contact-link\s*\{[^}]*color:\s*#fff[^}]*background:\s*var\(--range-good\)/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.closing-contact\s*\{[^}]*grid-template-columns:\s*1fr/s);
   assert.match(script, /slide\.layout === 'voice'/);
   assert.match(script, /class="voice-options"/);
   assert.match(script, /Range status/);
