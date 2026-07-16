@@ -135,10 +135,11 @@ function visualFor(slide) {
       <p>${slide.body[1]}</p>
       <div class="closing-contact">
         <div class="closing-contact-copy">
-          <p class="closing-contact-title">Questions or interested in testing Sugcar?</p>
+          <p class="closing-contact-title">Curious about Sugcar?</p>
+          <p class="closing-contact-invite">Want to try it, share feedback, or just ask a question? I’d love to hear from you.</p>
           <p class="closing-contact-note">Please don’t include personal health information.</p>
         </div>
-        <a class="closing-contact-link" href="mailto:sugcar.app@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email Sugcar at sugcar.app@gmail.com">Email me</a>
+        <a class="closing-contact-link" href="mailto:sugcar.app@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Contact Sugcar by email at sugcar.app@gmail.com"><svg class="contact-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="m3 6 9 7 9-7"/></svg><span>Contact me</span></a>
       </div>
     </section>`;
   }

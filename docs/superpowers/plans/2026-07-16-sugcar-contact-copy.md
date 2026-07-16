@@ -36,7 +36,7 @@ Replace the existing contact-copy assertions with:
 assert.match(script, /Curious about Sugcar\?/);
 assert.match(script, /Want to try it, share feedback, or just ask a question\? I’d love to hear from you\./);
 assert.match(script, /Please don’t include personal health information\./);
-assert.match(script, />Contact me<\/a>/);
+assert.match(script, /<span>Contact me<\/span>/);
 assert.match(script, /class="contact-icon"[^>]*aria-hidden="true"/);
 assert.match(script, /aria-label="Contact Sugcar by email at sugcar\.app@gmail\.com"/);
 ```

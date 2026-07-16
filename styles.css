@@ -105,8 +105,10 @@ button { font: inherit; }
 .closing-contact { width: 100%; padding-top: 1.15rem; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 1rem; border-top: 1px solid var(--line); }
 .closing-contact-copy { min-width: 0; display: grid; gap: .28rem; }
 .closing-proof .closing-contact-title { color: var(--navy); font-size: .92rem; font-weight: 750; line-height: 1.25; }
+.closing-proof .closing-contact-invite { color: var(--muted); font-size: .8rem; font-weight: 500; line-height: 1.4; }
 .closing-proof .closing-contact-note { color: var(--muted); font-size: .72rem; font-weight: 500; letter-spacing: .005em; line-height: 1.35; }
-.closing-contact-link { min-height: 2.65rem; padding: 0 .95rem; display: inline-flex; align-items: center; justify-content: center; color: #fff; background: var(--range-good); border: 1px solid var(--range-good); border-radius: .72rem; font-size: .82rem; font-weight: 750; text-decoration: none; white-space: nowrap; transition: background 160ms ease, border-color 160ms ease, transform 160ms ease; }
+.closing-contact-link { min-height: 2.65rem; padding: 0 .95rem; display: inline-flex; align-items: center; justify-content: center; gap: .45rem; color: #fff; background: var(--range-good); border: 1px solid var(--range-good); border-radius: .72rem; font-size: .82rem; font-weight: 750; text-decoration: none; white-space: nowrap; transition: background 160ms ease, border-color 160ms ease, transform 160ms ease; }
+.contact-icon { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .closing-contact-link:hover { background: #0c4210; border-color: #0c4210; transform: translateY(-1px); }
 
 .flow-wrap { display: grid; gap: 1rem; }
