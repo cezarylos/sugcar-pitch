@@ -20,19 +20,19 @@ export const slides = [
   {
     eyebrow: 'The details matter',
     title: 'Control what gets said out loud.',
-    body: ['Set the app around your routine: units, personal range, voice, appearance, and Lock Screen.'],
+    body: ['Make Sugcar fit your routine—from units and personal range to voice, appearance, and Lock Screen.'],
     layout: 'gallery'
   },
   {
     eyebrow: 'Voice is the interaction',
     title: 'The answer carries context.',
-    body: ['The reading stays central; choose which supporting context the spoken answer adds: unit, trend, range status, and age.'],
+    body: ['Start with the reading. Then choose the extra context Siri speaks: unit, trend, range status, and time since the update.'],
     layout: 'voice'
   },
   {
     eyebrow: 'Demo 1',
     title: 'Watch the app run.',
-    body: ['A short walkthrough of the dashboard, settings, and voice response.'],
+    body: ['A short walkthrough of the dashboard, settings, and\u00a0voice response.'],
     layout: 'demo-app'
   },
   {

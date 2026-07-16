@@ -41,8 +41,8 @@ test('voice feedback uses the app’s actual trend vocabulary and adds context',
   const voiceSlide = slides.find((slide) => slide.layout === 'voice');
   assert.ok(voiceSlide);
   assert.equal(voiceSlide.title, 'The answer carries context.');
-  assert.match(voiceSlide.body.join(' '), /reading stays central/i);
-  assert.match(voiceSlide.body.join(' '), /unit, trend, range status, and age/i);
+  assert.match(voiceSlide.body.join(' '), /Start with the reading/i);
+  assert.match(voiceSlide.body.join(' '), /unit, trend, range status, and time since the update/i);
   assert.doesNotMatch(voiceSlide.body.join(' '), /secondary visualization/i);
 });
 
@@ -50,7 +50,7 @@ test('settings and spoken-response slides describe distinct moments', () => {
   const settingsSlide = slides.find((slide) => slide.layout === 'gallery');
   const voiceSlide = slides.find((slide) => slide.layout === 'voice');
   assert.match(settingsSlide.body.join(' '), /routine.*units.*range.*voice.*appearance.*Lock Screen/i);
-  assert.match(voiceSlide.body.join(' '), /spoken answer/i);
+  assert.match(voiceSlide.body.join(' '), /Siri speaks/i);
 });
 
 test('the two demo slides keep the app walkthrough and driving moment distinct', () => {

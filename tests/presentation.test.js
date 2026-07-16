@@ -13,8 +13,8 @@ test('presentation shell exposes accessible keyboard-first controls', async () =
   assert.match(html, /src\/main\.js\?v=/);
   assert.match(script, /ArrowRight/);
   assert.match(script, /ArrowLeft/);
-  assert.match(script, /isWalkthroughFullscreen\(\)/);
-  assert.match(script, /if \(isWalkthroughFullscreen\(\)\) return;/);
+  assert.match(script, /isDemoFullscreen\(\)/);
+  assert.match(script, /if \(isDemoFullscreen\(\)\) return;/);
   assert.match(script, /Use ← → arrow keys to navigate/);
   assert.match(script, /<nav class="controls"[\s\S]*?<div class="navigation-status">[\s\S]*?<p class="navigation-hint">Use ← → arrow keys to navigate<\/p>[\s\S]*?<\/nav>/);
   assert.match(css, /prefers-reduced-motion/);
@@ -97,28 +97,38 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(script, /assets\/sugcar-settings-core\.png/);
   assert.match(script, /assets\/sugcar-settings-voice\.png/);
   assert.match(script, /slide\.layout === 'demo-app'/);
-  assert.match(script, /data-app-walkthrough/);
-  assert.match(script, /class="video-player"/);
+  assert.equal((script.match(/<video data-demo-video/g) ?? []).length, 2);
+  assert.match(script, /class="video-phone-shell"/);
+  assert.match(script, /class="video-player media-player"/);
+  assert.match(script, /class="video-phone-shell">\s*<div class="video-player media-player">/);
+  assert.doesNotMatch(script, /class="video-player phone-frame"/);
+  assert.match(script, /class="video-thumbnail-play"[^>]*data-video-fullscreen/);
+  assert.match(script, /video\.addEventListener\('canplay', revealDemoPlay/);
   assert.match(script, /class="video-actions"/);
-  assert.match(script, /THE PRODUCT, UNFILTERED/);
-  assert.match(script, /A working SwiftUI app with a real Siri intent\./);
-  assert.match(script, /Live data and user-controlled voice response\./);
+  assert.match(script, /SEE IT IN USE/);
+  assert.match(script, /Dashboard, personal settings, and a configurable voice response\./);
   assert.doesNotMatch(script, /IN THIS WALKTHROUGH/);
   assert.doesNotMatch(script, /data-video-play/);
   assert.match(script, /assets\/sugcar-app-walkthrough\.mp4/);
   assert.match(script, /assets\/sugcar-app-walkthrough-poster\.jpg/);
+  assert.match(script, /assets\/sugcar-driving-demo\.mp4/);
+  assert.match(script, /assets\/sugcar-driving-demo-poster\.jpg/);
+  assert.doesNotMatch(script, /data-demo-video controls/);
+  assert.equal((script.match(/class="video-thumbnail-play"/g) ?? []).length, 2);
+  assert.match(script, /video\.controls = true/);
+  assert.match(script, /video\.controls = false/);
   assert.match(script, /data-video-fullscreen/);
   assert.match(script, /Watch app walkthrough/);
   assert.match(script, /Tap to play fullscreen/);
   assert.match(script, /class="video-play-symbol"/);
-  assert.match(script, /closest\('\[data-app-walkthrough\]'\)/);
-  assert.match(script, /playWalkthroughFullscreen/);
+  assert.match(script, /closest\('\[data-demo-video\]'\)/);
+  assert.match(script, /playDemoFullscreen/);
   assert.match(script, /requestFullscreen/);
   assert.match(script, /trigger\.hidden = true/);
   assert.match(script, /fullscreenchange/);
   assert.match(script, /webkitendfullscreen/);
   assert.match(script, /webkitpresentationmodechanged/);
-  assert.match(script, /bindWalkthroughVideo/);
+  assert.match(script, /bindDemoVideo/);
   assert.match(script, /\.pause\(\)/);
   assert.match(css, /\.demo-video\s*\{/);
   assert.match(css, /\.video-player\s*\{/);
@@ -127,15 +137,23 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(css, /\.video-actions\s*\{[^}]*width:\s*100%/s);
   assert.match(css, /\.video-actions\s*\{[^}]*max-width:\s*13\.5rem/s);
   assert.match(css, /\.video-player\s*\{[^}]*justify-self:\s*end/s);
-  assert.match(css, /\.video-player\s*\{[^}]*height:\s*min\(60vh,\s*34rem\)/s);
   assert.match(css, /\.video-actions\s*\{[^}]*border-top:\s*1px\s+solid\s+var\(--line\)/s);
   assert.match(css, /\.video-fullscreen\s*\{[^}]*background:\s*var\(--range-good\)[^}]*color:\s*#fff/s);
   assert.match(css, /\.video-fullscreen\s*\{[^}]*width:\s*100%/s);
   assert.match(css, /\.video-fullscreen\s*\{[^}]*min-height:\s*4\.75rem/s);
-  assert.match(css, /@keyframes video-play-pulse/);
-  assert.match(css, /prefers-reduced-motion: reduce[^}]*video-play-symbol::after/s);
+  assert.doesNotMatch(css, /video-play-symbol::after|video-thumbnail-play::before/);
   assert.match(css, /\.video-fullscreen\s*\{[^}]*position:\s*static/s);
   assert.match(css, /\.video-player video\s*\{[^}]*object-fit:\s*contain/s);
+  assert.match(css, /\.video-phone-shell\s*\{[^}]*width:\s*min\(100%,\s*17\.25rem\)[^}]*height:\s*auto[^}]*justify-self:\s*end[^}]*margin:\s*0[^}]*overflow:\s*visible/s);
+  assert.doesNotMatch(css, /\.video-phone-shell\s+\.phone-island/);
+  assert.match(css, /\.video-phone-shell\s+\.video-player\s*\{[^}]*width:\s*auto[^}]*height:\s*100%[^}]*aspect-ratio:\s*1180\s*\/\s*2556/s);
+  assert.match(css, /\.video-thumbnail-play\s*\{[^}]*min-width:\s*4rem[^}]*min-height:\s*4rem[^}]*position:\s*absolute[^}]*z-index:\s*3/s);
+  assert.match(css, /\.media-player\.is-ready\s+\.video-thumbnail-play\s*\{[^}]*animation:\s*video-play-entrance/s);
+  assert.match(css, /\.video-play-symbol\s*\{[^}]*opacity:\s*0[^}]*transform:\s*scale\(\.72\)/s);
+  assert.match(css, /\.video-actions\.is-ready\s+\.video-play-symbol\s*\{[^}]*animation:\s*video-play-entrance/s);
+  assert.match(css, /@keyframes video-play-entrance/);
+  assert.match(css, /\.driving-video\s*\{[^}]*width:\s*min\(100%,\s*48rem\)[^}]*aspect-ratio:\s*16\s*\/\s*9[^}]*border:\s*1px\s+solid\s+var\(--line\)[^}]*border-radius:\s*1\.25rem[^}]*overflow:\s*hidden/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.driving-video\s*\{[^}]*width:\s*100%/s);
   assert.doesNotMatch(css, /\.demo-video\s*\{[^}]*background:\s*var\(--navy\)/s);
   assert.match(css, /\.video-fullscreen\[hidden\]/);
   assert.match(script, /slide\.layout === 'demo-driving'/);
@@ -163,8 +181,8 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(script, /falling rapidly/);
   assert.doesNotMatch(script, /rising slightly<\/strong>, in range/);
   assert.match(script, /app walkthrough/i);
-  assert.match(script, /Siri talks through CarPlay\./);
-  assert.match(script, /Hands stay on the wheel\./);
+  assert.match(script, /aria-label="Sugcar Siri interaction through CarPlay"/);
+  assert.match(script, /aria-label="Play the Sugcar CarPlay driving demo in fullscreen"/);
   assert.doesNotMatch(script, /Unit · trend · range · age — each optional/);
   assert.doesNotMatch(script, /add screenshot/i);
 });
@@ -199,7 +217,9 @@ test('cover keeps an editorial hero while slide 2 makes the Siri exchange explic
   assert.match(deck, /For moments when your attention belongs elsewhere\./);
   assert.match(css, /\.deck--cover\s+\.slide-content\s*\{[^}]*grid-template-columns:\s*1fr/s);
   assert.match(css, /\.deck--cover\s+\.copy h1\s*\{[^}]*max-width:\s*12ch/s);
-  assert.match(css, /\.deck--cover\s+\.copy h1\s*\{[^}]*margin-bottom:\s*clamp\(2\.5rem,\s*4\.2vw,\s*4rem\)/s);
+  assert.match(css, /\.deck\s*\{[^}]*--title-body-gap:\s*clamp\(1\.25rem,\s*2vw,\s*1\.75rem\)/s);
+  assert.match(css, /\.body\s*\{[^}]*margin-top:\s*var\(--title-body-gap\)/s);
+  assert.doesNotMatch(css, /\.deck--cover\s+\.copy h1\s*\{[^}]*margin-bottom:/s);
   assert.match(css, /\.deck--cover\s+\.cover-identity\s*\{[^}]*display:\s*none/s);
   assert.match(css, /\.siri-orb\s*\{/);
   assert.match(css, /\.deck--cover\s+\[data-title\]\s*\{[^}]*animation:\s*cover-copy-in/s);
@@ -224,7 +244,8 @@ test('mobile cover copy stays as prominent as the rest of the deck and the Siri 
 test('the landscape driving-demo frame fits within a portrait mobile viewport', async () => {
   const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
 
-  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.demo-stage\s*\{[^}]*width:\s*100%[^}]*max-width:\s*100%[^}]*min-height:\s*0[^}]*aspect-ratio:\s*16\s*\/\s*9/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.driving-video\s*\{[^}]*width:\s*100%[^}]*max-width:\s*100%[^}]*aspect-ratio:\s*16\s*\/\s*9/s);
+  assert.match(css, /\[data-demo-video\]:fullscreen,\s*\[data-demo-video\]:-webkit-full-screen\s*\{[^}]*width:\s*100vw[^}]*height:\s*100vh[^}]*object-fit:\s*contain[^}]*background:\s*#000/s);
 });
 
 test('closing copy and mobile spacing use the same calm secondary-text rhythm', async () => {
@@ -232,7 +253,20 @@ test('closing copy and mobile spacing use the same calm secondary-text rhythm', 
 
   assert.match(css, /\.deck--closing\s+\.body p:first-child\s*\{[^}]*color:\s*var\(--muted\)[^}]*font-weight:\s*400/s);
   assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.slide-content\s*\{[^}]*gap:\s*1\.5rem/s);
-  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.body\s*\{[^}]*margin-top:\s*1\.25rem/s);
+  assert.match(css, /\.body\s*\{[^}]*margin-top:\s*var\(--title-body-gap\)/s);
+  assert.doesNotMatch(css, /\.deck--closing\s+\.body\s*\{[^}]*margin-top:/s);
+  assert.doesNotMatch(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.body\s*\{[^}]*margin-top:/s);
+  assert.doesNotMatch(css, /@media \(max-width: 1100px\)[\s\S]*?\.body\s*\{[^}]*margin-top:/s);
+});
+
+test('tablet layouts keep a stable frame and use compact portrait compositions', async () => {
+  const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
+
+  assert.match(css, /@media \(min-width: 761px\) and \(max-width: 1180px\) and \(orientation: landscape\)\s*\{[\s\S]*?\.deck\s*\{[^}]*padding:\s*2rem\s+clamp\(2\.5rem,\s*5vw,\s*3\.75rem\)\s+1\.5rem[^}]*gap:\s*1\.5rem/s);
+  assert.doesNotMatch(css, /@media \(max-height: 820px\)[\s\S]*?\.deck--gallery\s*\{[^}]*(?:padding-top|padding-bottom|gap):/s);
+  assert.match(css, /@media \(max-width: 1100px\) and \(min-width: 761px\) and \(orientation: portrait\)\s*\{[\s\S]*?\.deck:not\(\.deck--cover\) \.slide-content\s*\{[^}]*grid-template-rows:\s*auto\s+auto[^}]*align-content:\s*center[^}]*gap:\s*clamp\(2rem,\s*4vh,\s*3\.25rem\)/s);
+  assert.match(css, /@media \(max-width: 1100px\) and \(min-width: 761px\) and \(orientation: portrait\)\s*\{[\s\S]*?\.deck:not\(\.deck--cover\) \.visual\s*\{[^}]*align-self:\s*center/s);
+  assert.match(css, /@media \(min-width: 900px\) and \(max-width: 1100px\) and \(orientation: portrait\)\s*\{[\s\S]*?\.deck:not\(\.deck--cover\) \.slide-content\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*\.88fr\)\s+minmax\(20rem,\s*1\.12fr\)[^}]*grid-template-rows:\s*1fr/s);
 });
 
 test('phone frames fit the stage and settings screens share one vertical baseline', async () => {
@@ -264,6 +298,9 @@ test('settings frames use the recovered desktop space and stack on narrow mobile
   assert.doesNotMatch(css, /\.product-shot\.phone-frame\s*>\s*img\s*\{/s);
   assert.match(css, /\.cover-identity\s*\{/);
   assert.match(css, /@media \(max-width: 520px\)\s*\{[\s\S]*?\.screen-pair\s*\{[^}]*grid-template-columns:\s*1fr/s);
+  assert.match(css, /@media \(max-width: 520px\)\s*\{[\s\S]*?\.video-phone-shell\s*\{[^}]*width:\s*min\(100%,\s*14\.5rem\)/s);
+  assert.match(css, /@media \(max-width: 1100px\) and \(min-width: 761px\) and \(orientation: portrait\)\s*\{[\s\S]*?\.video-phone-shell\s*\{[^}]*width:\s*min\(100%,\s*13\.75rem\)/s);
   assert.match(css, /@media \(max-height: 820px\) and \(min-width: 761px\) and \(orientation: landscape\)\s*\{[\s\S]*?\.deck\s*\{[^}]*--stage-min-height:\s*29rem/s);
   assert.match(css, /@media \(max-height: 820px\) and \(min-width: 761px\) and \(orientation: landscape\)\s*\{[\s\S]*?\.product-shot\.phone-frame\s*\{[^}]*width:\s*min\(100%,\s*14\.75rem\)/s);
+  assert.match(css, /@media \(max-height: 820px\) and \(min-width: 761px\) and \(orientation: landscape\)\s*\{[\s\S]*?\.video-phone-shell\s*\{[^}]*width:\s*min\(100%,\s*14\.75rem\)/s);
 });

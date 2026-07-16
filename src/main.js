@@ -102,27 +102,31 @@ function visualFor(slide) {
   if (slide.layout === 'demo-app') {
     return `<section class="demo-video" aria-label="Sugcar app walkthrough video">
       <div class="video-actions" aria-label="App walkthrough controls">
-        <p class="video-kicker">THE PRODUCT, UNFILTERED</p>
-        <p class="video-statement">A working SwiftUI app with a real Siri intent.</p>
-        <p class="video-detail">Live data and user-controlled voice response.</p>
+        <p class="video-kicker">SEE IT IN USE</p>
+        <p class="video-statement">Dashboard, personal settings, and a configurable voice response.</p>
         <button class="video-fullscreen" type="button" data-video-fullscreen aria-label="Play the Sugcar app walkthrough in fullscreen">
           <span class="video-play-symbol" aria-hidden="true">▶</span>
           <span class="video-play-copy"><strong>Watch app walkthrough</strong><small>Tap to play fullscreen</small></span>
         </button>
       </div>
-      <div class="video-player">
-        <video data-app-walkthrough controls playsinline preload="metadata" poster="assets/sugcar-app-walkthrough-poster.jpg?v=20260715-2">
-          <source src="assets/sugcar-app-walkthrough.mp4?v=20260715-2" type="video/mp4" />
-          Your browser does not support video playback.
-        </video>
+      <div class="video-phone-shell">
+        <div class="video-player media-player">
+          <video data-demo-video playsinline preload="metadata" poster="assets/sugcar-app-walkthrough-poster.jpg?v=20260715-2">
+            <source src="assets/sugcar-app-walkthrough.mp4?v=20260715-2" type="video/mp4" />
+            Your browser does not support video playback.
+          </video>
+          <button class="video-thumbnail-play" type="button" data-video-fullscreen aria-label="Play the Sugcar app walkthrough in fullscreen" aria-hidden="true" disabled><span aria-hidden="true">▶</span></button>
+        </div>
       </div>
     </section>`;
   }
   if (slide.layout === 'demo-driving') {
-    return `<section class="demo-stage" aria-label="Sugcar Siri interaction in a driving context">
-      <p class="demo-kicker">DRIVING DEMO</p>
-      <strong>Siri talks through CarPlay.</strong>
-      <small>One simple request.<br>Hands stay on the wheel.</small>
+    return `<section class="driving-video media-player" aria-label="Sugcar Siri interaction through CarPlay">
+      <video data-demo-video playsinline preload="metadata" poster="assets/sugcar-driving-demo-poster.jpg?v=20260716-1">
+        <source src="assets/sugcar-driving-demo.mp4?v=20260716-2" type="video/mp4" />
+        Your browser does not support video playback.
+      </video>
+      <button class="video-thumbnail-play" type="button" data-video-fullscreen aria-label="Play the Sugcar CarPlay driving demo in fullscreen" aria-hidden="true" disabled><span aria-hidden="true">▶</span></button>
     </section>`;
   }
   if (slide.layout === 'closing') {
@@ -165,7 +169,7 @@ function render() {
     return element;
   }));
   visual.innerHTML = visualFor(slide);
-  bindWalkthroughVideo();
+  bindDemoVideo();
   counter.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
   progress.style.transform = `scaleX(${(activeIndex + 1) / slides.length})`;
   previous.disabled = activeIndex === 0;
@@ -186,14 +190,15 @@ previous.addEventListener('click', () => navigate(activeIndex - 1));
 next.addEventListener('click', () => navigate(activeIndex + 1));
 window.addEventListener('hashchange', () => { activeIndex = hashIndex(); render(); });
 window.addEventListener('keydown', (event) => {
-  if (isWalkthroughFullscreen()) return;
+  if (isDemoFullscreen()) return;
   if (['ArrowRight', ' ', 'PageDown'].includes(event.key)) { event.preventDefault(); navigate(activeIndex + 1); }
   if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); navigate(activeIndex - 1); }
   if (event.key === 'Home') { event.preventDefault(); navigate(0); }
   if (event.key === 'End') { event.preventDefault(); navigate(slides.length - 1); }
 });
 
-function playWalkthroughFullscreen(video, trigger) {
+function playDemoFullscreen(video, trigger) {
+  video.controls = true;
   const enterFullscreen = video.requestFullscreen ?? video.webkitEnterFullscreen;
   const playInline = () => {
     if (trigger) trigger.hidden = true;
@@ -214,38 +219,59 @@ function playWalkthroughFullscreen(video, trigger) {
 
 app.addEventListener('click', (event) => {
   const trigger = event.target.closest('[data-video-fullscreen]');
-  const thumbnail = event.target.closest('[data-app-walkthrough]');
+  const thumbnail = event.target.closest('[data-demo-video]');
   if (!trigger && !thumbnail) return;
-  const video = thumbnail ?? document.querySelector('[data-app-walkthrough]');
+  const video = thumbnail ?? document.querySelector('[data-demo-video]');
   if (!video) return;
   if (thumbnail) event.preventDefault();
-  playWalkthroughFullscreen(video, trigger);
+  playDemoFullscreen(video, trigger);
 });
 
-function pauseWalkthrough() {
-  document.querySelector('[data-app-walkthrough]')?.pause();
+function pauseDemo() {
+  const video = document.querySelector('[data-demo-video]');
+  if (!video) return;
+  video.pause();
+  video.controls = false;
 }
 
-function isWalkthroughFullscreen() {
-  const video = document.querySelector('[data-app-walkthrough]');
+function isDemoFullscreen() {
+  const video = document.querySelector('[data-demo-video]');
   if (!video) return false;
   return document.fullscreenElement === video || video.webkitPresentationMode === 'fullscreen' || Boolean(video.webkitDisplayingFullscreen);
 }
 
-function bindWalkthroughVideo() {
-  const video = visual.querySelector('[data-app-walkthrough]');
+function bindDemoVideo() {
+  const video = visual.querySelector('[data-demo-video]');
   if (!video) return;
+  const player = video.closest('.media-player');
+  const videoActions = visual.querySelector('.video-actions');
+  const thumbnailPlay = player?.querySelector('.video-thumbnail-play');
+  const revealDemoPlay = () => {
+    if (!player || !thumbnailPlay || player.classList.contains('is-ready')) return;
+    player.classList.add('is-ready');
+    videoActions?.classList.add('is-ready');
+    thumbnailPlay.disabled = false;
+    thumbnailPlay.removeAttribute('aria-hidden');
+  };
+  video.addEventListener('canplay', revealDemoPlay, { once: true });
+  if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) revealDemoPlay();
   const pauseOnFullscreenExit = () => {
     const isWebKitFullscreen = video.webkitPresentationMode === 'fullscreen' || video.webkitDisplayingFullscreen;
-    if (!document.fullscreenElement && !isWebKitFullscreen) video.pause();
+    if (!document.fullscreenElement && !isWebKitFullscreen) {
+      video.pause();
+      video.controls = false;
+    }
   };
   video.addEventListener('fullscreenchange', pauseOnFullscreenExit);
-  video.addEventListener('webkitendfullscreen', () => video.pause());
+  video.addEventListener('webkitendfullscreen', () => {
+    video.pause();
+    video.controls = false;
+  });
   video.addEventListener('webkitpresentationmodechanged', pauseOnFullscreenExit);
 }
 
 document.addEventListener('fullscreenchange', () => {
-  if (!document.fullscreenElement) pauseWalkthrough();
+  if (!document.fullscreenElement) pauseDemo();
 });
 
 render();
