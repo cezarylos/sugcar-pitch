@@ -282,6 +282,7 @@ test('closing copy and mobile spacing use the same calm secondary-text rhythm', 
 
   assert.match(css, /\.deck--closing\s+\.body p:first-child\s*\{[^}]*color:\s*var\(--muted\)[^}]*font-weight:\s*400/s);
   assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.slide-content\s*\{[^}]*gap:\s*1\.5rem/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.deck--closing \.slide-content\s*\{[^}]*align-content:\s*start[^}]*align-items:\s*start/s);
   assert.match(css, /\.body\s*\{[^}]*margin-top:\s*var\(--title-body-gap\)/s);
   assert.doesNotMatch(css, /\.deck--closing\s+\.body\s*\{[^}]*margin-top:/s);
   assert.doesNotMatch(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.body\s*\{[^}]*margin-top:/s);

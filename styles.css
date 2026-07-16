@@ -186,7 +186,7 @@ button { font: inherit; }
   .deck--cover .copy { max-width: 37rem; align-self: center; }
   .deck--cover .copy h1 { max-width: 10ch; font-size: clamp(2.8rem, 13vw, 4.5rem); }
   .deck--cover .visual { position: static; }
-  .deck--closing .slide-content { grid-template-columns: 1fr; gap: 1.5rem; }
+  .deck--closing .slide-content { grid-template-columns: 1fr; gap: 1.5rem; align-content: start; align-items: start; }
   .deck--closing .copy h1 { max-width: 15ch; font-size: clamp(3.05rem, 10.6vw, 4.3rem); }
   .closing-proof { min-height: 0; gap: 1.25rem; }
   .closing-heart-wrap { width: 4.5rem; height: 4.5rem; border-radius: 1.15rem; }
