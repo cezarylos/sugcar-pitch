@@ -34,6 +34,27 @@ test('navigation keeps a stable stage instead of replacing and refocusing the pa
   assert.match(css, /\.deck--cover\s+\.slide-content\s*\{[^}]*min-height:\s*var\(--stage-min-height\)/s);
 });
 
+test('mobile keeps navigation fixed while each slide scrolls above it', async () => {
+  const script = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
+  const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
+
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.deck\s*\{[^}]*padding:[^}]*calc\(var\(--mobile-nav-height\)/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.slide-content\s*\{[^}]*overflow-y:\s*auto/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.controls\s*\{[^}]*position:\s*fixed[^}]*bottom:\s*0[^}]*safe-area-inset-bottom/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.deck\s*\{[^}]*height:\s*100dvh/s);
+  assert.match(script, /const slideContent = document\.querySelector\('\.slide-content'\);/);
+  assert.match(script, /slideContent\.scrollTop = 0;/);
+  assert.match(script, /window\.scrollTo\(0, 0\);/);
+});
+
+test('the mobile voice exchange is centered as one clear vertical sequence', async () => {
+  const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
+
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.voice-interaction\s*\{[^}]*justify-items:\s*center/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.voice-request-card,\s*\.voice-response-card\s*\{[^}]*justify-items:\s*center[^}]*text-align:\s*center/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.voice-wave-bridge\s*\{[^}]*justify-content:\s*center/s);
+});
+
 test('navigation ignores requests for the already active slide', async () => {
   const script = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
 
@@ -125,6 +146,7 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(css, /\.closing-heart-wrap\s*\{[^}]*background:\s*var\(--soft-green\)/s);
   assert.match(css, /\.deck--closing\s+\.slide-content\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s+minmax\(16rem,\s*\.55fr\)/s);
   assert.doesNotMatch(css, /\.deck--closing\s+\.copy h1\s*\{[^}]*white-space:\s*pre-line/s);
+  assert.match(css, /\.deck--closing\s+\.body p:first-child\s*\{[^}]*font-weight:\s*400/s);
   assert.match(css, /\.closing-proof\s*\{[^}]*min-height:\s*16rem/s);
   assert.match(script, /slide\.layout === 'voice'/);
   assert.match(script, /class="voice-options"/);
@@ -189,6 +211,28 @@ test('cover keeps an editorial hero while slide 2 makes the Siri exchange explic
   assert.match(script, /copy\.animate\(/);
   assert.match(script, /visual\.animate\(/);
   assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.navigation-hint\s*\{[^}]*display:\s*none/s);
+});
+
+test('mobile cover copy stays as prominent as the rest of the deck and the Siri wave stands alone', async () => {
+  const script = await readFile(new URL('../src/main.js', import.meta.url), 'utf8');
+  const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
+
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.deck--cover\s+\.copy h1\s*\{[^}]*font-size:\s*clamp\(2\.8rem,\s*13vw,\s*4\.5rem\)/s);
+  assert.doesNotMatch(script, /<div class="voice-wave-bridge"[^>]*>[\s\S]*?<span>→<\/span>/);
+});
+
+test('the landscape driving-demo frame fits within a portrait mobile viewport', async () => {
+  const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
+
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.demo-stage\s*\{[^}]*width:\s*100%[^}]*max-width:\s*100%[^}]*min-height:\s*0[^}]*aspect-ratio:\s*16\s*\/\s*9/s);
+});
+
+test('closing copy and mobile spacing use the same calm secondary-text rhythm', async () => {
+  const css = await readFile(new URL('../styles.css', import.meta.url), 'utf8');
+
+  assert.match(css, /\.deck--closing\s+\.body p:first-child\s*\{[^}]*color:\s*var\(--muted\)[^}]*font-weight:\s*400/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.slide-content\s*\{[^}]*gap:\s*1\.5rem/s);
+  assert.match(css, /@media \(max-width: 760px\)\s*\{[\s\S]*?\.body\s*\{[^}]*margin-top:\s*1\.25rem/s);
 });
 
 test('phone frames fit the stage and settings screens share one vertical baseline', async () => {

@@ -51,7 +51,7 @@ button { font: inherit; }
 .deck--closing .copy { max-width: 47rem; }
 .deck--closing .copy h1 { max-width: 15ch; font-size: clamp(3.35rem, 5.8vw, 6.5rem); letter-spacing: -.052em; line-height: .94; }
 .deck--closing .body { max-width: 40rem; margin-top: clamp(.7rem, 1.5vw, 1.1rem); }
-.deck--closing .body p:first-child { color: var(--navy); font-size: clamp(1.08rem, 1.42vw, 1.3rem); font-weight: 650; line-height: 1.52; }
+.deck--closing .body p:first-child { color: var(--muted); font-size: clamp(1.08rem, 1.42vw, 1.3rem); font-weight: 400; line-height: 1.52; }
 .deck--closing .body p + p { display: none; }
 .visual { min-width: 0; }
 
@@ -78,7 +78,6 @@ button { font: inherit; }
 .voice-wave-bridge .cover-wave b:nth-child(1), .voice-wave-bridge .cover-wave b:nth-child(5) { height: .65rem; }
 .voice-wave-bridge .cover-wave b:nth-child(2), .voice-wave-bridge .cover-wave b:nth-child(4) { height: 1.25rem; }
 .voice-wave-bridge .cover-wave b:nth-child(3) { height: 2rem; }
-.voice-wave-bridge span { font-size: 1.45rem; font-weight: 700; line-height: 1; }
 .voice-response-heading { display: flex; align-items: center; gap: .6rem; }
 .voice-speaking-icon { width: 2.3rem; height: 2.3rem; display: grid; place-items: center; flex: 0 0 auto; background: var(--soft-green); border-radius: .72rem; }
 .voice-speaking-icon svg { width: 1.35rem; height: 1.35rem; stroke: var(--range-good); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
@@ -159,16 +158,21 @@ button { font: inherit; }
 
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
 @media (max-width: 760px) {
-  .deck { --stage-min-height: 0; min-height: 100dvh; padding-top: 1.35rem; }
-  .slide-content { min-height: 0; grid-template-columns: 1fr; gap: 1.7rem; align-content: center; }
+  html, body { height: 100%; overflow: hidden; }
+  .deck { --stage-min-height: 0; --mobile-nav-height: 5.5rem; width: 100%; height: 100dvh; min-height: 0; padding: 1.35rem 1.25rem calc(var(--mobile-nav-height) + env(safe-area-inset-bottom)); grid-template-rows: auto minmax(0, 1fr); gap: 1rem; }
+  .slide-content { min-height: 0; display: grid; grid-template-columns: 1fr; gap: 1.5rem; overflow-y: auto; padding-bottom: 1.5rem; overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch; align-content: start; }
+  .controls { min-height: var(--mobile-nav-height); position: fixed; z-index: 10; right: 0; bottom: 0; left: 0; padding: .7rem 1.25rem calc(.7rem + env(safe-area-inset-bottom)); background: rgba(240, 244, 252, .94); border-top: 1px solid var(--line); box-shadow: 0 -.6rem 1.5rem rgba(13, 33, 60, .08); backdrop-filter: blur(12px); }
   .copy h1 { max-width: 12ch; font-size: clamp(2.8rem, 13vw, 4.5rem); }
-  .voice-interaction { max-width: 31rem; grid-template-columns: 1fr; gap: .85rem; margin: 0 auto; }
-  .voice-request-card, .voice-response-card { min-height: 0; }
-  .voice-wave-bridge { display: flex; justify-content: flex-start; align-items: center; gap: .75rem; min-height: 2rem; }
-  .voice-boundary { grid-column: auto; }
-  .deck--cover .slide-content { min-height: var(--stage-min-height); position: static; gap: 1.7rem; }
-  .deck--cover .copy { max-width: 37rem; align-self: start; }
-  .deck--cover .copy h1 { max-width: 10ch; font-size: clamp(2.8rem, 11vw, 4rem); }
+  .body { margin-top: 1.25rem; }
+  .voice-interaction { max-width: 31rem; grid-template-columns: 1fr; justify-items: center; gap: .85rem; margin: 0 auto; text-align: center; }
+  .voice-request-card, .voice-response-card { width: 100%; min-height: 0; justify-items: center; text-align: center; }
+  .voice-request-card { grid-template-columns: 1fr; }
+  .voice-response-heading { justify-content: center; }
+  .voice-wave-bridge { display: flex; justify-content: center; align-items: center; gap: .75rem; min-height: 2rem; }
+  .voice-boundary { grid-column: auto; text-align: center; }
+  .deck--cover .slide-content { min-height: var(--stage-min-height); position: static; gap: 1.7rem; align-content: center; }
+  .deck--cover .copy { max-width: 37rem; align-self: center; }
+  .deck--cover .copy h1 { max-width: 10ch; font-size: clamp(2.8rem, 13vw, 4.5rem); }
   .deck--cover .visual { position: static; }
   .deck--closing .slide-content { grid-template-columns: 1fr; gap: 1.5rem; }
   .deck--closing .copy h1 { max-width: 15ch; font-size: clamp(3.05rem, 10.6vw, 4.3rem); }
@@ -185,6 +189,7 @@ button { font: inherit; }
   .demo-video { grid-template-columns: 1fr; gap: 1rem; }
   .video-actions { width: min(100%, 17rem); justify-self: center; }
   .video-player { height: min(40vh, 19rem); justify-self: center; }
+  .demo-stage { width: 100%; max-width: 100%; min-height: 0; aspect-ratio: 16 / 9; overflow: hidden; }
   .controls .control span { display: none; }
   .navigation-status { max-width: none; }
   .navigation-hint { display: none; }
@@ -192,7 +197,7 @@ button { font: inherit; }
 @media (max-width: 520px) {
   .deck--gallery .slide-content { gap: 1.3rem; }
   .deck--gallery .screen-pair { grid-template-columns: 1fr; max-width: 17.25rem; gap: 1rem; margin: 0 auto; }
-  .deck--gallery .product-shot.phone-frame { width: min(100%, 17.25rem); }
+  .deck--gallery .product-shot.phone-frame { width: min(100%, 14.5rem); }
 }
 @media (max-width: 1100px) and (min-width: 761px) and (orientation: portrait) {
   .deck { --stage-min-height: 0; padding: 2rem clamp(2rem, 7vw, 4rem) 1.5rem; gap: 1.5rem; }

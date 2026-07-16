@@ -34,6 +34,7 @@ app.insertAdjacentHTML('beforeend', `
 
 const stage = document.querySelector('#slide');
 const copy = document.querySelector('.copy');
+const slideContent = document.querySelector('.slide-content');
 const eyebrow = document.querySelector('[data-eyebrow]');
 const title = document.querySelector('[data-title]');
 const body = document.querySelector('[data-body]');
@@ -60,7 +61,7 @@ function visualFor(slide) {
         <span class="siri-orb"><img src="assets/siri-logo.png" alt="Siri" /></span>
         <div><p class="voice-step-label">VOICE REQUEST</p><p class="voice-command">“Hey Siri, check my blood sugar.”</p></div>
       </div>
-      <div class="voice-wave-bridge" aria-hidden="true"><i class="cover-wave"><b></b><b></b><b></b><b></b><b></b></i><span>→</span></div>
+      <div class="voice-wave-bridge" aria-hidden="true"><i class="cover-wave"><b></b><b></b><b></b><b></b><b></b></i></div>
       <div class="voice-response-card">
         <div class="voice-response-heading"><span class="voice-speaking-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg></span><p class="voice-step-label">AUDIO RESPONSE</p></div>
         <p class="voice-response-sentence">104 mg/dL · stable · in range · 1 minute ago</p>
@@ -146,6 +147,11 @@ function animateSlideContents(slide) {
   if (visual.children.length) visual.animate(keyframes, { ...timing, delay: 70 });
 }
 
+function resetSlideScroll() {
+  slideContent.scrollTop = 0;
+  window.scrollTo(0, 0);
+}
+
 function render() {
   const slide = slides[activeIndex];
   coverIdentity.hidden = slide.layout !== 'cover';
@@ -164,6 +170,7 @@ function render() {
   progress.style.transform = `scaleX(${(activeIndex + 1) / slides.length})`;
   previous.disabled = activeIndex === 0;
   next.disabled = activeIndex === slides.length - 1;
+  resetSlideScroll();
   animateSlideContents(slide);
 }
 
