@@ -24,6 +24,13 @@ test('cover leads with the personal safety moment', () => {
   assert.doesNotMatch(cover.body.join(' '), /safer/i);
 });
 
+test('problem slide gives newcomers enough context before showing the voice interaction', () => {
+  const problem = slides.find((slide) => slide.layout === 'problem');
+
+  assert.equal(problem.title, 'One question. No screen hunt.');
+  assert.equal(problem.body.join(' '), 'For people with diabetes, a glucose check is more than a number. It matters where the reading is heading and how recent it is. Checking that on a phone while driving means looking away from the road.');
+});
+
 test('navigation clamps indices and supplies stable slide hashes', () => {
   assert.equal(clampSlideIndex(-4, 7), 0);
   assert.equal(clampSlideIndex(50, 7), 6);

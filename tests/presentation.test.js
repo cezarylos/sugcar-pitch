@@ -103,7 +103,8 @@ test('the product story uses supplied screens, a clear voice exchange, and two d
   assert.match(script, /class="video-phone-shell">\s*<div class="video-player media-player">/);
   assert.doesNotMatch(script, /class="video-player phone-frame"/);
   assert.match(script, /class="video-thumbnail-play"[^>]*data-video-fullscreen/);
-  assert.match(script, /video\.addEventListener\('canplay', revealDemoPlay/);
+  assert.doesNotMatch(script, /video\.addEventListener\('canplay'/);
+  assert.match(script, /requestAnimationFrame\(revealDemoPlay\)/);
   assert.match(script, /class="video-actions"/);
   assert.match(script, /SEE IT IN USE/);
   assert.match(script, /Dashboard, personal settings, and a configurable voice response\./);

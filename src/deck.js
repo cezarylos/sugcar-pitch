@@ -8,7 +8,7 @@ export const slides = [
   {
     eyebrow: 'The problem',
     title: 'One question. No screen hunt.',
-    body: ['One voice request instead of looking for a number.'],
+    body: ['For people with diabetes, a glucose check is more than a number. It matters where the reading is heading and how recent it is. Checking that on a phone while driving means looking away from the road.'],
     layout: 'problem'
   },
   {
@@ -20,7 +20,7 @@ export const slides = [
   {
     eyebrow: 'The details matter',
     title: 'Control what gets said out loud.',
-    body: ['Make Sugcar fit your routine—from units and personal range to voice, appearance, and Lock Screen.'],
+    body: ['Make Sugcar fit your routine: from units and personal range to voice, appearance, and Lock Screen.'],
     layout: 'gallery'
   },
   {
@@ -38,7 +38,7 @@ export const slides = [
   {
     eyebrow: 'Demo 2',
     title: 'Then see it on the road.',
-    body: ['With CarPlay connected, Siri speaks the latest glucose update through your car’s audio—hands off, without reaching for your phone.'],
+    body: ['With CarPlay connected, Siri speaks the latest glucose update through your car’s audio, hands-free and without reaching for your phone.'],
     layout: 'demo-driving'
   },
   {

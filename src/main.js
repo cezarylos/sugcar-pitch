@@ -1,4 +1,4 @@
-import { clampSlideIndex, slideHash, slides } from './deck.js?v=20260715-20';
+import { clampSlideIndex, slideHash, slides } from './deck.js?v=20260716-21';
 
 const app = document.querySelector('#app');
 const hashIndex = () => {
@@ -253,8 +253,7 @@ function bindDemoVideo() {
     thumbnailPlay.disabled = false;
     thumbnailPlay.removeAttribute('aria-hidden');
   };
-  video.addEventListener('canplay', revealDemoPlay, { once: true });
-  if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) revealDemoPlay();
+  requestAnimationFrame(revealDemoPlay);
   const pauseOnFullscreenExit = () => {
     const isWebKitFullscreen = video.webkitPresentationMode === 'fullscreen' || video.webkitDisplayingFullscreen;
     if (!document.fullscreenElement && !isWebKitFullscreen) {
